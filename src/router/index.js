@@ -3,12 +3,12 @@ import { createRouter, createWebHistory} from 'vue-router'
 export const constantRoutes = [
   {
     path: '/',
-    component: () => import('../views/index.vue'),
+    component: () => import('../views/home/index.vue'),
     redirect: '/home',
   },
   {
     path: '/home',
-    component: () => import('../views/index.vue'),
+    component: () => import('../views/home/index.vue'),
     name: 'home',
     meta: { title: '首页', icon: 'HomeFilled', affix: true }
   },
