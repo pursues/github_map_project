@@ -20,7 +20,7 @@ export const constantRoutes = [
   },
   {
     path: '/cultural_relics',
-    component: () => import('../views/cultural_relics.vue'),
+    component: () => import('../views/cultural/cultural_relics.vue'),
     name: 'cultural_relics',
     meta: { title: '文物管理', icon: 'Histogram', roles: ['admin', 'editor'] }
   },
