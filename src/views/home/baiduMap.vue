@@ -17,18 +17,19 @@ onMounted(() => {
         {point:"113.46397,23.176147",isDriver:false,title:"测试地址5"},
       ];
       // 创建Map实例
-      const map = new BMapGL.Map("bmap");
+      // ,{ mapType: BMAP_SATELLITE_MAP }
+      const map = new BMapGL.Map("bmap" );
       // 创建点坐标
-      const point = new BMapGL.Point(113.464644, 23.178049);
+      const point = new BMapGL.Point(113.74021,27.646307);
       // 创建Point点标记
       const pointMarker = new BMapGL.Marker(
-        new BMapGL.Point(113.464644, 23.178049)
+        new BMapGL.Point(113.74021,27.646307)
       );
       map.setHeading(64.5); //设置地图旋转角度
       map.setTilt(73); //设置地图的倾斜角度
       map.enableScrollWheelZoom(true);
       // 地图设置中心点和放大级别
-      map.centerAndZoom(point, 20);
+      map.centerAndZoom(point, 12);
       map_init(markerArr, BMapGL, map);
       // 地图添加点标记
       map.addOverlay(pointMarker);
@@ -77,7 +78,7 @@ function map_init(markerArr, mapGL, map) {
 
 <style scoped>
 #bmap {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 </style>
