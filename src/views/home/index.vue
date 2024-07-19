@@ -5,24 +5,24 @@
         <li
           class="tab1"
           :class="[activeIndex == 1 ? 'active' : '']"
-          @click="selectTab(1)"
+          @click="selectTab(1,'home')"
         >
           首页
         </li>
         <li
           class="tab2"
           :class="[activeIndex == 2 ? 'active' : '']"
-          @click="selectTab(2)"
+          @click="selectTab(2,'cultural_relics')"
         >
           文物管理
         </li>
       </ul>
       <div class="top_center">大数据可视化平台</div>
       <ul class="weather">
-        <li :class="[activeIndex == 3 ? 'active' : '']" @click="selectTab(3)">
+        <li :class="[activeIndex == 3 ? 'active' : '']" @click="selectTab(3,'user')">
           用户管理
         </li>
-        <li :class="[activeIndex == 4 ? 'active' : '']" @click="selectTab(4)">
+        <li :class="[activeIndex == 4 ? 'active' : '']" @click="selectTab(4,'camera')">
           摄像头管理
         </li>
       </ul>
@@ -39,10 +39,14 @@ import { ref } from "vue";
 import baiduMap from "./baiduMap.vue";
 import leftSlider from "./com/bjLeftSlider.vue";
 import rightSlider from "./com/bjRightSlider.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const activeIndex = ref(1);
-function selectTab(index) {
+function selectTab(index,key) {
   console.log("🚀 ~ selectTab ~ index:", index);
   activeIndex.value = index;
+  router.push({ name: key });
 }
 </script>
 <style scoped lang="less">

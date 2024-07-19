@@ -13,6 +13,7 @@
           <div class="top-right">
               <a-button @click="search">刷新</a-button>
               <a-button  style="margin-left: 12px;" type="primary" @click="openModel(1)">新增</a-button>
+              <a-button  style="margin-left: 12px;" type="primary" @click="router.go(-1)">返回主页</a-button>
           </div>
       </div>
       <div class="content">
@@ -43,6 +44,9 @@
 import { onMounted, reactive,ref } from "vue";
 import AddModal from "./AddModal.vue";
 import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const userName = ref('');
 // 定义静态数据
@@ -139,8 +143,7 @@ search();
   .hander{
       display: flex;
       justify-content: space-between;
-      margin: 30px 0;
-      // margin-bottom: 20px;
+      margin-bottom: 30px;
   }
 }
 </style>

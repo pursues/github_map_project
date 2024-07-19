@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:visible="isShow" width="800px" :title="title+'文物保护点'" :mask-closable="false" @close="hide">
+  <a-modal v-model:visible="isShow" width="800px" :title="title+'摄像头'" :mask-closable="false" @close="hide">
     <a-form
       ref="formRef"
       :label-col="{ style: { width: '100px' } }"
@@ -7,33 +7,16 @@
       :rules="rules"
       name="basic"
     >
-      <a-form-item label="文物类型" name="cul_type">
-        <a-select
-              placeholder="请选择类型"
-              v-model:value="formState.cul_type"
-              @change="typeChange"
-              :disabled="isLook"
-            >
-              <a-select-option value="1" name="文物点" >文物点</a-select-option>
-              <a-select-option value="2" name="文物馆" >文物馆</a-select-option>
-              <a-select-option value="3" name="艺术馆" >艺术馆</a-select-option>
-              <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
-            </a-select>
-        <!-- <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" /> -->
+      <a-form-item label="摄像头名称" name="cam_name">
+        <a-input placeholder="请输入摄像头名称" v-model:value="formState.cam_name" allow-clear :disabled="isLook" />
       </a-form-item>
-      <a-form-item label="文物名称" name="cul_name">
-        <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" />
-      </a-form-item>
-      <a-form-item label="文物信息" name="cul_info" >
+      <a-form-item label="摄像头信息" name="cam_info" >
         <a-textarea
           :disabled="isLook"
-          v-model:value="formState.cul_info"
-          placeholder="请输入文物信息"
+          v-model:value="formState.cam_info"
+          placeholder="请输入摄像头信息"
           :maxlength="300"
         ></a-textarea>
-      </a-form-item>
-      <a-form-item label="照片上传" name="cul_img">
-        <ImgUpload v-model:value="formState.cul_img" :disabled="isLook"></ImgUpload>
       </a-form-item>
     </a-form>
     <template #footer>
@@ -50,7 +33,6 @@
 import { ref, reactive } from "vue";
 import { message } from "ant-design-vue";
 import dayjs from "dayjs";
-import ImgUpload from "../../components/imgUpload.vue";
 // 回填
 const emits = defineEmits(["on-success"]);
 // 显示弹窗
@@ -60,19 +42,14 @@ const title=ref('新增');
 // 表单验证
 const formRef = ref();
 const formState = reactive({
-  cul_type_name:'',
-  cul_type:undefined,
-  cul_name:'',
-  cul_info:'',
-  cul_img:'',
+  cam_name:'',
+  cam_info:'',
   update_time:'',
   id:'',
 });
 const rules = {
-  cul_type: [{ required: true, message: "请选择文物类型", trigger: "change" }],
-  cul_name: [{ required: true, message: "请输入文物名称", trigger: "change" }],
-  cul_info: [{ required: true, message: "请输入文物信息", trigger: "change" }],
-  cul_img: [{ required: true, message: "请上传文物照片", trigger: "change" }],
+  cam_name: [{ required: true, message: "请输入摄像头名称", trigger: "change" }],
+  cam_info: [{ required: true, message: "请输入摄像头信息", trigger: "change" }],
 };
 
 // 关闭
@@ -96,7 +73,7 @@ function show(type,row) {
     Object.keys(formState).forEach(it =>{
       formState[it] = '';
     })
-    formState.cul_type = undefined;
+    formState.cam_type = undefined;
     formState.id = dayjs().valueOf()
   }
     //去除校验
@@ -108,7 +85,7 @@ function show(type,row) {
 }
 
 function typeChange(e,option){
-  formState.cul_type_name = option.name;
+  formState.cam_type_name = option.name;
   console.log(formState)
 }
 
@@ -118,7 +95,7 @@ async function save() {
   await formRef.value.validate();
   formState.update_time = dayjs().format('YYYY-MM-DD HH:mm:ss')
   // 先读取到存储
-  const strList = localStorage.getItem('cultural');
+  const strList = localStorage.getItem('camera');
   // 解析处理啊
   let list = JSON.parse(strList) || [];
   // 判断list是否包含该数据，是则是编辑，否则是新增
@@ -135,7 +112,7 @@ async function save() {
     list.push(formState)
   }
 
-  localStorage.setItem('cultural',JSON.stringify(list))
+  localStorage.setItem('camera',JSON.stringify(list))
     message.success(`${title.value}成功`);
     emits("on-success");
     hide();

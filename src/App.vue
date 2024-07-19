@@ -1,6 +1,6 @@
 <template>
   <div class="app-content">
-    <div class="top">
+    <!-- <div class="top">
       <a-dropdown class="ml-5 mr-1 cursor-pointer">
         <div class="avatar user">
           <a-button class="setting">{{ manageName }} <DownOutlined /></a-button>
@@ -14,31 +14,31 @@
           </a-menu>
         </template>
       </a-dropdown>
-    </div>
+    </div> -->
     <router-view />
   </div>
 </template>
 
 <script setup lang="ts">
-import { DownOutlined } from "@ant-design/icons-vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+// import { DownOutlined } from "@ant-design/icons-vue";
+// import { useRouter } from "vue-router";
+// import { ref } from "vue";
 
-const router = useRouter();
+// const router = useRouter();
 
-const manageName = ref("主页");
+// const manageName = ref("主页");
 
-const list = ref([
-  { name: "主页", key: "home" },
-  { name: "用户管理", key: "user" },
-  { name: "文物管理", key: "cultural_relics" },
-  { name: "摄像头管理", key: "camera" },
-]);
+// const list = ref([
+//   { name: "主页", key: "home" },
+//   { name: "用户管理", key: "user" },
+//   { name: "文物管理", key: "cultural_relics" },
+//   { name: "摄像头管理", key: "camera" },
+// ]);
 
-function onClick(item) {
-  router.push({ name: item.key });
-  manageName.value = list.value.find((ei) => ei.key == item.key).name;
-}
+// function onClick(item) {
+//   router.push({ name: item.key });
+//   manageName.value = list.value.find((ei) => ei.key == item.key).name;
+// }
 
 // function routerChange(name){
 //   router.push({ name });

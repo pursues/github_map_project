@@ -1,12 +1,12 @@
 <template>
-    <div class="cultural">
+    <div class="camera">
         <div class="hander">
             <div class="top-left">
                 <a-input-search
                     allow-clear
-                    v-model:value="culName"
+                    v-model:value="camName"
                     @search="search"
-                    placeholder="按文物搜索..."
+                    placeholder="按摄像头名称搜索..."
                     style="width: 250px;"
                 ></a-input-search>
             </div>
@@ -34,8 +34,8 @@
                         <a-button style="margin-left: 10px;" danger type="primary">删除</a-button>
                     </a-popconfirm>
                 </template>
-                <template v-else-if="column.dataIndex === 'cul_img'">
-                    <img :src="record.cul_img" style="width:80px;height:60px;" alt="">
+                <template v-else-if="column.dataIndex === 'cam_img'">
+                    <img :src="record.cam_img" style="width:80px;height:60px;" alt="">
                 </template>
             </template>
             </a-table>
@@ -52,15 +52,13 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const culName = ref('');
+const camName = ref('');
 // 定义静态数据
 const data = ref([
 ]);
 const columns = ref([
-  { title: "文物保护点类型", dataIndex: "cul_type_name", width: 120 },
-  { title: "文物保护点名称", dataIndex: "cul_name", width: 120 },
-  { title: "文物保护点信息", dataIndex: "cul_info", width: 120 },
-  { title: "文物保护点图片", dataIndex: "cul_img", width: 150 },
+  { title: "摄像头名称", dataIndex: "cam_name", width: 120 },
+  { title: "摄像头信息", dataIndex: "cam_info", width: 120 },
   { title: "更新时间", dataIndex: "update_time", width: 100 },
   { title: "操作", dataIndex: "action", width: 130 },
 ]);
@@ -78,19 +76,18 @@ const addModalRef = ref();
 
 onMounted(()=>{
      // 获取本地数据
-     const strList = localStorage.getItem('cultural');
+     const strList = localStorage.getItem('camera');
     let list = JSON.parse(strList) || [];
     if(list.length == 0){
         list = [
             {
-                cul_name:'广州博物馆',
-                cul_info:'广州博物馆信息',
-                cul_img:'',
+                cam_name:'广州博物馆',
+                cam_info:'广州博物馆信息',
                 update_time:'2024-07-18 20:20:20',
                 id:'234234324'
             }
         ]
-        localStorage.setItem('cultural',JSON.stringify(list));
+        localStorage.setItem('camera',JSON.stringify(list));
     }
 
     getList()
@@ -98,11 +95,11 @@ onMounted(()=>{
 
 function getList(){
     // 获取本地数据
-    const strList = localStorage.getItem('cultural');
+    const strList = localStorage.getItem('camera');
     // data.value = JSON.parse(strList);
     let list = JSON.parse(strList);
-    if(culName.value){
-        data.value = list.filter(it => it.cul_name.includes(culName.value)) || [];
+    if(camName.value){
+        data.value = list.filter(it => it.cam_name.includes(camName.value)) || [];
     }else{
         data.value = list;
     }
@@ -129,25 +126,26 @@ function openModel(type,row={}){
 function del(id){
     
       // 先读取到存储
-  const strList = localStorage.getItem('cultural');
+  const strList = localStorage.getItem('camera');
   // 解析处理啊
   let list = JSON.parse(strList) || [];
 
   let newList = list.filter(it => it.id != id );
 
-  localStorage.setItem('cultural',JSON.stringify(newList));
+  localStorage.setItem('camera',JSON.stringify(newList));
   message.success('删除成功');
   search();
 }
 </script>
 
 <style scoped lang="less">
-.cultural{
+.camera{
     padding: 20px;
     .hander{
         display: flex;
         justify-content: space-between;
         margin-bottom: 30px;
+        // margin-bottom: 20px;
     }
 }
 </style>

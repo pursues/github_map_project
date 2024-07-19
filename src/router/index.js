@@ -26,7 +26,7 @@ export const constantRoutes = [
   },
   {
     path: '/camera',
-    component: () => import('../views/camera.vue'),
+    component: () => import('../views/camera/camera.vue'),
     name: 'camera',
     meta: { title: '摄像头管理', icon: 'Flag', roles: ['admin'] }
   },
