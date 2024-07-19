@@ -35,7 +35,7 @@
                     </a-popconfirm>
                 </template>
                 <template v-else-if="column.dataIndex === 'cul_img'">
-                    <img :src="record.cul_img" style="width:80px;height:60px;" alt="">
+                    <img v-if="record.cul_img" :src="record.cul_img" style="width:80px;height:60px;" alt="">
                 </template>
             </template>
             </a-table>
@@ -57,12 +57,13 @@ const culName = ref('');
 const data = ref([
 ]);
 const columns = ref([
-  { title: "文物保护点类型", dataIndex: "cul_type_name", width: 120 },
-  { title: "文物保护点名称", dataIndex: "cul_name", width: 120 },
-  { title: "文物保护点信息", dataIndex: "cul_info", width: 120 },
-  { title: "文物保护点图片", dataIndex: "cul_img", width: 150 },
+  { title: "名称", dataIndex: "cul_name", width: 120 },
+  { title: "类型", dataIndex: "cul_type_name", width: 100 },
+  { title: "地点", dataIndex: "point", width: 100 },
+  { title: "信息", dataIndex: "cul_info", width: 180 },
+  { title: "图片", dataIndex: "cul_img", width: 100 },
   { title: "更新时间", dataIndex: "update_time", width: 100 },
-  { title: "操作", dataIndex: "action", width: 130 },
+  { title: "操作", dataIndex: "action", width: 150 },
 ]);
 const pageData = reactive({
   total: 0,
@@ -86,13 +87,13 @@ onMounted(()=>{
                 cul_name:'广州博物馆',
                 cul_info:'广州博物馆信息',
                 cul_img:'',
+                point:'113.470276,23.179303',
                 update_time:'2024-07-18 20:20:20',
                 id:'234234324'
             }
         ]
         localStorage.setItem('cultural',JSON.stringify(list));
     }
-
     getList()
 })
 

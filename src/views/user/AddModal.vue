@@ -6,6 +6,7 @@
       :model="formState"
       :rules="rules"
       name="basic"
+      style="margin-top:30px;"
     >
       <a-form-item label="登录账号" name="account">
         <a-input placeholder="请输入账号" v-model:value="formState.account" allow-clear :disabled="isLook" />

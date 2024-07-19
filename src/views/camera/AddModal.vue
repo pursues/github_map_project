@@ -6,9 +6,16 @@
       :model="formState"
       :rules="rules"
       name="basic"
+      style="margin-top:30px;"
     >
       <a-form-item label="摄像头名称" name="cam_name">
         <a-input placeholder="请输入摄像头名称" v-model:value="formState.cam_name" allow-clear :disabled="isLook" />
+      </a-form-item>
+      <a-form-item label="摄像头位置" name="point">
+        <a-input placeholder="请输入位置坐标(如：113.470276,23.179303)" v-model:value="formState.point" allow-clear :disabled="isLook" />
+      </a-form-item>
+      <a-form-item label="摄像头url" name="cam_url">
+        <a-input placeholder="请输入url" v-model:value="formState.cam_url" allow-clear :disabled="isLook" />
       </a-form-item>
       <a-form-item label="摄像头信息" name="cam_info" >
         <a-textarea
@@ -44,11 +51,15 @@ const formRef = ref();
 const formState = reactive({
   cam_name:'',
   cam_info:'',
+  point:'',
+  cam_url:'',
   update_time:'',
   id:'',
 });
 const rules = {
   cam_name: [{ required: true, message: "请输入摄像头名称", trigger: "change" }],
+  point: [{ required: true, message: "请输入摄像头位置", trigger: "change" }],
+  cam_url: [{ required: true, message: "请输入摄像头url", trigger: "change" }],
   cam_info: [{ required: true, message: "请输入摄像头信息", trigger: "change" }],
 };
 

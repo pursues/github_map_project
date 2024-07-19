@@ -6,6 +6,7 @@
       :model="formState"
       :rules="rules"
       name="basic"
+      style="margin-top:30px;"
     >
       <a-form-item label="文物类型" name="cul_type">
         <a-select
@@ -19,10 +20,12 @@
               <a-select-option value="3" name="艺术馆" >艺术馆</a-select-option>
               <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
             </a-select>
-        <!-- <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" /> -->
       </a-form-item>
       <a-form-item label="文物名称" name="cul_name">
         <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" />
+      </a-form-item>
+      <a-form-item label="文物地址" name="point">
+        <a-input placeholder="请输入地址坐标(如：113.470276,23.179303)" v-model:value="formState.point" allow-clear :disabled="isLook" />
       </a-form-item>
       <a-form-item label="文物信息" name="cul_info" >
         <a-textarea
@@ -63,6 +66,7 @@ const formState = reactive({
   cul_type_name:'',
   cul_type:undefined,
   cul_name:'',
+  point:'',
   cul_info:'',
   cul_img:'',
   update_time:'',
@@ -71,8 +75,9 @@ const formState = reactive({
 const rules = {
   cul_type: [{ required: true, message: "请选择文物类型", trigger: "change" }],
   cul_name: [{ required: true, message: "请输入文物名称", trigger: "change" }],
+  point: [{ required: true, message: "请输入经纬度坐标", trigger: "change" }],
   cul_info: [{ required: true, message: "请输入文物信息", trigger: "change" }],
-  cul_img: [{ required: true, message: "请上传文物照片", trigger: "change" }],
+  // cul_img: [{ required: true, message: "请上传文物照片", trigger: "change" }],
 };
 
 // 关闭
