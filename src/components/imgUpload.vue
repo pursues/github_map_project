@@ -22,7 +22,7 @@
 </template>
 <script setup lang="ts">
 // 评价组件
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { message } from "ant-design-vue";
 import WaitFor from "./WaitFor"
 import { PlusOutlined } from '@ant-design/icons-vue';
@@ -41,6 +41,18 @@ const props = defineProps({
 const emits = defineEmits(["update:value"]);
 const fileList = ref([])
 const  accept = ref('.png,.jpeg,.jpg,.svg');
+watch(()=>props.value,()=>{
+  if (props.value) {
+      fileList.value.push({
+        uid: "-1",
+        name: "",
+        status: "done",
+        url: props.value,
+      });
+    }else{
+      fileList.value = []
+    }
+})
 
 onMounted(()=>{
     if (props.value) {
@@ -50,6 +62,8 @@ onMounted(()=>{
         status: "done",
         url: props.value,
       });
+    }else{
+      fileList.value = []
     }
 })
 function beforeUploadHandler(file: File) {

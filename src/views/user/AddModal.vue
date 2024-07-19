@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:visible="isShow" width="800px" :title="title+'文物'" :mask-closable="false" @close="hide">
+  <a-modal v-model:visible="isShow" width="800px" :title="title+'用户'" :mask-closable="false" @close="hide">
     <a-form
       ref="formRef"
       :label-col="{ style: { width: '100px' } }"
@@ -7,19 +7,19 @@
       :rules="rules"
       name="basic"
     >
-      <a-form-item label="文物名称" name="cul_name">
-        <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" />
+      <a-form-item label="登录账号" name="account">
+        <a-input placeholder="请输入账号" v-model:value="formState.account" allow-clear :disabled="isLook" />
       </a-form-item>
-      <a-form-item label="文物信息" name="cul_info" >
+      <a-form-item label="用户名称" name="name">
+        <a-input placeholder="请输入用户名称" v-model:value="formState.name" allow-clear :disabled="isLook" />
+      </a-form-item>
+      <a-form-item label="描述" name="desc" >
         <a-textarea
           :disabled="isLook"
-          v-model:value="formState.cul_info"
-          placeholder="请输入文物信息"
+          v-model:value="formState.desc"
+          placeholder="请输入描述"
           :maxlength="300"
         ></a-textarea>
-      </a-form-item>
-      <a-form-item label="照片上传" name="cul_img">
-        <ImgUpload v-model:value="formState.cul_img" :disabled="isLook"></ImgUpload>
       </a-form-item>
     </a-form>
     <template #footer>
@@ -36,32 +36,25 @@
 import { ref, reactive } from "vue";
 import { message } from "ant-design-vue";
 import dayjs from "dayjs";
-import ImgUpload from "../../components/imgUpload.vue";
 // 回填
 const emits = defineEmits(["on-success"]);
 // 显示弹窗
 const isShow = ref(false);
 const isLook = ref(false);
-const title=ref('文物新增');
+const title=ref('新增');
 // 表单验证
 const formRef = ref();
 const formState = reactive({
-  cul_name:'',
-  cul_info:'',
-  cul_img:'',
-  update_time:'',
   id:'',
+  name:'',
+  account:'',
+  update_time:'',
+  desc:'',
 });
 const rules = {
-  cul_name: [{ required: true, message: "请输入文物名称", trigger: "change" }],
-  cul_info: [{ required: true, message: "请输入文物信息", trigger: "change" }],
-  cul_img: [{ required: true, message: "请上传文物照片", trigger: "change" }],
+  name: [{ required: true, message: "请输入用户名称", trigger: "change" }],
+  account: [{ required: true, message: "请输入登录账号", trigger: "change" }],
 };
-
-const fileList = ref([])
-const  accept = ref('.png,.jpeg,.jpg,.svg');
-
-
 // 关闭
 function hide() {
   isShow.value = false;
@@ -83,8 +76,9 @@ function show(type,row) {
     Object.keys(formState).forEach(it =>{
       formState[it] = '';
     })
-    formState.id = dayjs().valueOf()
-    //去除校验
+    // ID赋值
+    formState.id = dayjs().valueOf();
+    // 去除校验
     formRef.value?.clearValidate();
   }
   //标题
@@ -98,7 +92,7 @@ async function save() {
   await formRef.value.validate();
   formState.update_time = dayjs().format('YYYY-MM-DD HH:mm:ss')
   // 先读取到存储
-  const strList = localStorage.getItem('cultural');
+  const strList = localStorage.getItem('user');
   // 解析处理啊
   let list = JSON.parse(strList) || [];
   // 判断list是否包含该数据，是则是编辑，否则是新增
@@ -115,7 +109,7 @@ async function save() {
     list.push(formState)
   }
 
-  localStorage.setItem('cultural',JSON.stringify(list))
+  localStorage.setItem('user',JSON.stringify(list))
     message.success(`${title.value}成功`);
     emits("on-success");
     hide();
