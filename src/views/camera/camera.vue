@@ -59,6 +59,8 @@ const data = ref([
 const columns = ref([
   { title: "摄像头名称", dataIndex: "cam_name", width: 120 },
   { title: "摄像头信息", dataIndex: "cam_info", width: 120 },
+  { title: "摄像头位置", dataIndex: "point", width: 120 },
+  { title: "摄像头url", dataIndex: "cam_url", width: 120,ellipsis: true },
   { title: "更新时间", dataIndex: "update_time", width: 100 },
   { title: "操作", dataIndex: "action", width: 130 },
 ]);
@@ -83,6 +85,8 @@ onMounted(()=>{
             {
                 cam_name:'广州博物馆',
                 cam_info:'广州博物馆信息',
+                point:'113.470276,23.179303',
+                cam_url:'http://59.62.61.24:10000/sms/34020000002020000001/hls/34020000001320000011_34020000001320000011/live.m3u8',
                 update_time:'2024-07-18 20:20:20',
                 id:'234234324'
             }
