@@ -13,7 +13,7 @@
       <div class="row-detail">
         坐标：<a-input v-model:value="detailObj.point"></a-input>
       </div>
-      <div class="row-detail">
+      <div class="row-detail" v-if="detailObj.desc">
         描述：<a-textarea
           v-model:value="detailObj.desc"
           :auto-size="{ minRows: 2, maxRows: 5 }"
@@ -34,6 +34,7 @@
           />
         </a-popover>
         <video
+          v-if="detailObj.videoUrl"
           ref="videoElement"
           style="width: 100%; height: 100%"
           autoplay
@@ -51,7 +52,7 @@ const emit = defineEmits(["on-ok"]);
 const detailObj = ref({});
 const isShow = ref(false);
 const title = ref("详细信息");
-const player:any = ref(null);
+const player: any = ref(null);
 const videoElement = ref(null);
 function show(detail) {
   detailObj.value = detail;
@@ -96,11 +97,16 @@ defineExpose({
 .modal-content {
   width: 100%;
   height: 100%;
-  img,
+  img {
+    width: 400px;
+    height: 300px;
+    margin-left: 20px;
+  }
   video {
     width: 400px;
     height: 300px;
     margin-left: 20px;
+    padding-right: 20px;
   }
   .row-detail {
     margin-bottom: 20px;
