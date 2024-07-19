@@ -214,7 +214,7 @@ onBeforeUnmount(() => {
         background: url(../../../assets/img1.png) center center;
         border-radius: 100px;
         background-size: 100% 100%;
-        opacity: 0.3;
+        opacity: 1;
         left: 0;
         top: 0;
         animation: myfirst2 15s infinite linear;
@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
         background: url(../../../assets/img2.png) center center;
         border-radius: 100px;
         background-size: 100% 100%;
-        opacity: 0.3;
+        opacity: 1;
         height: 86%;
         content: "";
         left: 7%;
