@@ -73,22 +73,6 @@ showTotal: (total) => {
 const addModalRef = ref();
 
 onMounted(()=>{
-   // 获取本地数据
-   const strList = localStorage.getItem('user');
-  let list = JSON.parse(strList) || [];
-  if(list.length == 0){
-      list = [
-          {
-              id:'23423423',
-              name:'管理员',
-              account:'admin',
-              desc:'描述',
-              update_time:'2024-07-18 20:20:20',
-          }
-      ]
-      localStorage.setItem('user',JSON.stringify(list));
-  }
-
   getList()
 })
 

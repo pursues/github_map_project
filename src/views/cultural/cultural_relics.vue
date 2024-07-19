@@ -30,7 +30,6 @@
                     <a-button   type="primary" @click="openModel(2,record)">编辑</a-button>
                     <a-button style="margin-left: 10px;" type="primary" @click="openModel(3,record)">查看</a-button>
                     <a-popconfirm title="确认删除？" @confirm="del(record.id)">
-                        <!-- <a-button size="small" type="primary" danger>删除</a-button> -->
                         <a-button style="margin-left: 10px;" danger type="primary">删除</a-button>
                     </a-popconfirm>
                 </template>
@@ -111,8 +110,7 @@ function openModel(type,row={}){
 }
 // 删除
 function del(id){
-    
-      // 先读取到存储
+  // 先读取到存储
   const strList = localStorage.getItem('cultural');
   // 解析处理啊
   let list = JSON.parse(strList) || [];

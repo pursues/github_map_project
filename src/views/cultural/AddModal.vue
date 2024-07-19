@@ -10,16 +10,16 @@
     >
       <a-form-item label="文物类型" name="type">
         <a-select
-              placeholder="请选择类型"
-              v-model:value="formState.type"
-              @change="typeChange"
-              :disabled="isLook"
-            >
-              <a-select-option value="1" name="文物点" >文物点</a-select-option>
-              <a-select-option value="2" name="文物馆" >文物馆</a-select-option>
-              <a-select-option value="3" name="艺术馆" >艺术馆</a-select-option>
-              <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
-            </a-select>
+          placeholder="请选择类型"
+          v-model:value="formState.type"
+          @change="typeChange"
+          :disabled="isLook"
+        >
+          <a-select-option value="1" name="文物点" >文物点</a-select-option>
+          <a-select-option value="2" name="文物馆" >文物馆</a-select-option>
+          <a-select-option value="3" name="艺术馆" >艺术馆</a-select-option>
+          <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
+        </a-select>
       </a-form-item>
       <a-form-item label="文物名称" name="title">
         <a-input placeholder="请输入文物名称" v-model:value="formState.title" allow-clear :disabled="isLook" />
@@ -139,11 +139,11 @@ async function save() {
   }else{
     list.push(formState)
   }
-
+  // 添加存储
   localStorage.setItem('cultural',JSON.stringify(list))
-    message.success(`${title.value}成功`);
-    emits("on-success");
-    hide();
+  message.success(`${title.value}成功`);
+  emits("on-success");
+  hide();
 }
 
 defineExpose({ show });

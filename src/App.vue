@@ -31,15 +31,19 @@ import wenwuimg4 from "./assets/wenwu4.png";
 
 
 onBeforeMount(()=>{
-  console.log(wenwuimg1)
-  initCultural()
+  // 文物初始化
+  initCultural();
+  // 摄像头初始化
+  initCamera();
+  // 用户信息初始化
+  initUser();
 })
 
 
 // 初始化文物管理数据集
 function initCultural(){
-   // 获取本地数据
-   const strList = localStorage.getItem('cultural');
+    // 获取本地数据
+    const strList = localStorage.getItem('cultural');
     let list = JSON.parse(strList) || [];
     // 如果没有，则说明需要初始化
     if(list.length == 0){
@@ -87,6 +91,65 @@ function initCultural(){
         ]
         localStorage.setItem('cultural',JSON.stringify(list));
     }
+}
+
+function initCamera(){
+    // 获取本地数据
+    const strList = localStorage.getItem('camera');
+    let list = JSON.parse(strList) || [];
+    // 如果没有，则说明需要初始化
+    if(list.length == 0){
+        list = [
+          {
+            point: "113.91087,27.651954",
+            title: "白源站",
+            type: 5,
+            icon: "",
+            videoUrl:
+              "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000011_34020000001320000011.flv",
+            desc: "",
+            update_time:'2024-07-18 20:20:20',
+            id:'cam123456'
+          },
+          {
+            point: "113.825638,27.601641",
+            title: "萍乡技师学院",
+            type: 5,
+            icon: "",
+            videoUrl:
+              "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000011_34020000001320000011.flv",
+            desc: "",
+            update_time:'2024-07-18 20:20:20',
+            id:'cam556677'
+          },
+        ]
+        localStorage.setItem('camera',JSON.stringify(list));
+    }
+}
+
+function initUser(){
+   // 获取本地数据
+   const strList = localStorage.getItem('user');
+  let list = JSON.parse(strList) || [];
+  if(list.length == 0){
+      list = [
+          {
+              id:'23423423',
+              name:'管理员',
+              account:'admin',
+              desc:'管理员用户，查看所有权限',
+              update_time:'2024-07-18 20:20:20',
+          },{
+              id:'23234324423423',
+              name:'张三',
+              account:'zhangsan',
+              desc:'zhangsan',
+              update_time:'2024-07-19 10:20:20',
+          }
+      ]
+      localStorage.setItem('user',JSON.stringify(list));
+  }
+
 }
 
 </script>
