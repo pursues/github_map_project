@@ -78,9 +78,9 @@ function show(type,row) {
     })
     // ID赋值
     formState.id = dayjs().valueOf();
-    // 去除校验
-    formRef.value?.clearValidate();
   }
+  // 去除校验
+  formRef.value?.clearValidate();
   //标题
   title.value = type == 1 ? '新增' : type == 2 ? '编辑' :'查看'
   // 禁用

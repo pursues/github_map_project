@@ -53,9 +53,10 @@ const culName = ref('');
 const data = ref([
 ]);
 const columns = ref([
-  { title: "文物名称", dataIndex: "cul_name", width: 120 },
-  { title: "文物信息", dataIndex: "cul_info", width: 120 },
-  { title: "文物图片", dataIndex: "cul_img", width: 150 },
+  { title: "文物保护点类型", dataIndex: "cul_type_name", width: 120 },
+  { title: "文物保护点名称", dataIndex: "cul_name", width: 120 },
+  { title: "文物保护点信息", dataIndex: "cul_info", width: 120 },
+  { title: "文物保护点图片", dataIndex: "cul_img", width: 150 },
   { title: "更新时间", dataIndex: "update_time", width: 100 },
   { title: "操作", dataIndex: "action", width: 130 },
 ]);
