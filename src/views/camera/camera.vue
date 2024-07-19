@@ -78,21 +78,21 @@ const addModalRef = ref();
 
 onMounted(()=>{
      // 获取本地数据
-     const strList = localStorage.getItem('camera');
-    let list = JSON.parse(strList) || [];
-    if(list.length == 0){
-        list = [
-            {
-                cam_name:'广州博物馆',
-                cam_info:'广州博物馆信息',
-                point:'113.470276,23.179303',
-                cam_url:'http://59.62.61.24:10000/sms/34020000002020000001/hls/34020000001320000011_34020000001320000011/live.m3u8',
-                update_time:'2024-07-18 20:20:20',
-                id:'234234324'
-            }
-        ]
-        localStorage.setItem('camera',JSON.stringify(list));
-    }
+    // const strList = localStorage.getItem('camera');
+    // let list = JSON.parse(strList) || [];
+    // if(list.length == 0){
+    //     list = [
+    //         {
+    //             cam_name:'广州博物馆',
+    //             cam_info:'广州博物馆信息',
+    //             point:'113.470276,23.179303',
+    //             cam_url:'http://59.62.61.24:10000/sms/34020000002020000001/hls/34020000001320000011_34020000001320000011/live.m3u8',
+    //             update_time:'2024-07-18 20:20:20',
+    //             id:'234234324'
+    //         }
+    //     ]
+    //     localStorage.setItem('camera',JSON.stringify(list));
+    // }
 
     getList()
 })

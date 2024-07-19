@@ -8,10 +8,10 @@
       name="basic"
       style="margin-top:30px;"
     >
-      <a-form-item label="文物类型" name="cul_type">
+      <a-form-item label="文物类型" name="type">
         <a-select
               placeholder="请选择类型"
-              v-model:value="formState.cul_type"
+              v-model:value="formState.type"
               @change="typeChange"
               :disabled="isLook"
             >
@@ -21,22 +21,22 @@
               <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
             </a-select>
       </a-form-item>
-      <a-form-item label="文物名称" name="cul_name">
-        <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" />
+      <a-form-item label="文物名称" name="title">
+        <a-input placeholder="请输入文物名称" v-model:value="formState.title" allow-clear :disabled="isLook" />
       </a-form-item>
       <a-form-item label="文物地址" name="point">
         <a-input placeholder="请输入地址坐标(如：113.470276,23.179303)" v-model:value="formState.point" allow-clear :disabled="isLook" />
       </a-form-item>
-      <a-form-item label="文物信息" name="cul_info" >
+      <a-form-item label="文物信息" name="desc" >
         <a-textarea
           :disabled="isLook"
-          v-model:value="formState.cul_info"
+          v-model:value="formState.desc"
           placeholder="请输入文物信息"
           :maxlength="300"
         ></a-textarea>
       </a-form-item>
-      <a-form-item label="照片上传" name="cul_img">
-        <ImgUpload v-model:value="formState.cul_img" :disabled="isLook"></ImgUpload>
+      <a-form-item label="照片上传" name="icon">
+        <ImgUpload v-model:value="formState.icon" :disabled="isLook"></ImgUpload>
       </a-form-item>
     </a-form>
     <template #footer>
@@ -63,21 +63,21 @@ const title=ref('新增');
 // 表单验证
 const formRef = ref();
 const formState = reactive({
-  cul_type_name:'',
-  cul_type:undefined,
-  cul_name:'',
+  type_name:'',
+  type:undefined,
+  title:'',
   point:'',
-  cul_info:'',
-  cul_img:'',
+  desc:'',
+  icon:'',
   update_time:'',
   id:'',
 });
 const rules = {
-  cul_type: [{ required: true, message: "请选择文物类型", trigger: "change" }],
-  cul_name: [{ required: true, message: "请输入文物名称", trigger: "change" }],
+  type: [{ required: true, message: "请选择文物类型", trigger: "change" }],
+  title: [{ required: true, message: "请输入文物名称", trigger: "change" }],
   point: [{ required: true, message: "请输入经纬度坐标", trigger: "change" }],
-  cul_info: [{ required: true, message: "请输入文物信息", trigger: "change" }],
-  // cul_img: [{ required: true, message: "请上传文物照片", trigger: "change" }],
+  desc: [{ required: true, message: "请输入文物信息", trigger: "change" }],
+  // icon: [{ required: true, message: "请上传文物照片", trigger: "change" }],
 };
 
 // 关闭
@@ -101,7 +101,7 @@ function show(type,row) {
     Object.keys(formState).forEach(it =>{
       formState[it] = '';
     })
-    formState.cul_type = undefined;
+    formState.type = undefined;
     formState.id = dayjs().valueOf()
   }
     //去除校验
@@ -113,7 +113,7 @@ function show(type,row) {
 }
 
 function typeChange(e,option){
-  formState.cul_type_name = option.name;
+  formState.type_name = option.name;
   console.log(formState)
 }
 
