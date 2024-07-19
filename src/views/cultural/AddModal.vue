@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:visible="isShow" width="800px" :title="title+'文物'" :mask-closable="false" @close="hide">
+  <a-modal v-model:visible="isShow" width="800px" :title="title+'文物保护点'" :mask-closable="false" @close="hide">
     <a-form
       ref="formRef"
       :label-col="{ style: { width: '100px' } }"
@@ -7,6 +7,20 @@
       :rules="rules"
       name="basic"
     >
+      <a-form-item label="文物类型" name="cul_type">
+        <a-select
+              placeholder="请选择类型"
+              v-model:value="formState.cul_type"
+              @change="typeChange"
+              :disabled="isLook"
+            >
+              <a-select-option value="1" name="文物点" >文物点</a-select-option>
+              <a-select-option value="2" name="文物馆" >文物馆</a-select-option>
+              <a-select-option value="3" name="艺术馆" >艺术馆</a-select-option>
+              <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
+            </a-select>
+        <!-- <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" /> -->
+      </a-form-item>
       <a-form-item label="文物名称" name="cul_name">
         <a-input placeholder="请输入文物名称" v-model:value="formState.cul_name" allow-clear :disabled="isLook" />
       </a-form-item>
@@ -46,6 +60,8 @@ const title=ref('文物新增');
 // 表单验证
 const formRef = ref();
 const formState = reactive({
+  cul_type_name:'',
+  cul_type:undefined,
   cul_name:'',
   cul_info:'',
   cul_img:'',
@@ -53,14 +69,11 @@ const formState = reactive({
   id:'',
 });
 const rules = {
+  cul_type: [{ required: true, message: "请选择文物类型", trigger: "change" }],
   cul_name: [{ required: true, message: "请输入文物名称", trigger: "change" }],
   cul_info: [{ required: true, message: "请输入文物信息", trigger: "change" }],
   cul_img: [{ required: true, message: "请上传文物照片", trigger: "change" }],
 };
-
-const fileList = ref([])
-const  accept = ref('.png,.jpeg,.jpg,.svg');
-
 
 // 关闭
 function hide() {
@@ -72,26 +85,33 @@ function hide() {
  * 
  * */ 
 function show(type,row) {
+  isShow.value = true;
   // 编辑
   if(type != 1){
-    Object.keys(row).forEach(it =>{
+    Object.keys(formState).forEach(it =>{
       formState[it] = row[it];
     })
   }else if(type == 1){
     // 新增
-    Object.keys(row).forEach(it =>{
+    Object.keys(formState).forEach(it =>{
       formState[it] = '';
     })
+    formState.cul_type = undefined;
     formState.id = dayjs().valueOf()
-    console.log(formState)
   }
+    //去除校验
+    formRef.value?.clearValidate();
   //标题
   title.value = type == 1 ? '新增' : type == 2 ? '编辑' :'查看'
   // 禁用
   isLook.value = type == 3 ? true :false;
-  isShow.value = true;
-  formRef.value?.resetFields();
 }
+
+function typeChange(e,option){
+  formState.cul_type_name = option.name;
+  console.log(formState)
+}
+
 //保存
 async function save() {
   console.log(formState)

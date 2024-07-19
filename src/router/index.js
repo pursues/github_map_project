@@ -14,7 +14,7 @@ export const constantRoutes = [
   },
   {
     path: '/user',
-    component: () => import('../views/user.vue'),
+    component: () => import('../views/user/user.vue'),
     name: 'user',
     meta: { title: '用户管理', icon: 'Tools', roles: ['admin'] }
   },

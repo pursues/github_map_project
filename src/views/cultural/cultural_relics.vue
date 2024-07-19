@@ -2,13 +2,13 @@
     <div class="cultural">
         <div class="hander">
             <div class="top-left">
-                <a-input
+                <a-input-search
                     allow-clear
-                    v-model:value="title"
-                    @change="search"
+                    v-model:value="culName"
+                    @search="search"
                     placeholder="按文物搜索..."
-                    style="width: 150px; margin-right: 12px"
-                ></a-input>
+                    style="width: 250px;"
+                ></a-input-search>
             </div>
             <div class="top-right">
                 <a-button @click="search">刷新</a-button>
@@ -48,14 +48,15 @@ import { onMounted, reactive,ref } from "vue";
 import AddModal from "./AddModal.vue";
 import { message } from "ant-design-vue";
 
-const title = ref('');
+const culName = ref('');
 // 定义静态数据
 const data = ref([
 ]);
 const columns = ref([
-  { title: "文物名称", dataIndex: "cul_name", width: 120 },
-  { title: "文物信息", dataIndex: "cul_info", width: 120 },
-  { title: "文物图片", dataIndex: "cul_img", width: 150 },
+  { title: "文物保护点类型", dataIndex: "cul_type_name", width: 120 },
+  { title: "文物保护点名称", dataIndex: "cul_name", width: 120 },
+  { title: "文物保护点信息", dataIndex: "cul_info", width: 120 },
+  { title: "文物保护点图片", dataIndex: "cul_img", width: 150 },
   { title: "更新时间", dataIndex: "update_time", width: 100 },
   { title: "操作", dataIndex: "action", width: 130 },
 ]);
@@ -94,8 +95,13 @@ onMounted(()=>{
 function getList(){
     // 获取本地数据
     const strList = localStorage.getItem('cultural');
-    data.value = JSON.parse(strList);
-
+    // data.value = JSON.parse(strList);
+    let list = JSON.parse(strList);
+    if(culName.value){
+        data.value = list.filter(it => it.cul_name.includes(culName.value)) || [];
+    }else{
+        data.value = list;
+    }
 }
 function search(){
     pageData.current = 1;
