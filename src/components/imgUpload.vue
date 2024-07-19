@@ -43,12 +43,12 @@ const fileList = ref([])
 const  accept = ref('.png,.jpeg,.jpg,.svg');
 watch(()=>props.value,()=>{
   if (props.value) {
-      fileList.value.push({
+      fileList.value = [{
         uid: "-1",
         name: "",
         status: "done",
         url: props.value,
-      });
+      }];
     }else{
       fileList.value = []
     }

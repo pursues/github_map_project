@@ -119,7 +119,6 @@ function onTableChanged(pagination) {
  * 
  * */ 
 function openModel(type,row={}){
-    console.log(type,row)
     addModalRef.value.show(type,row);
 }
 // 删除
