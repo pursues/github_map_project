@@ -10,59 +10,32 @@
           <img src="../../../assets/chillerImg.png" alt="" />
         </div>
         <div class="plot-content unconfirmed-list">
-          <div class="unconfirmed-item-1">
-            <div class="circle-1">
-              <span class="circle-2">
-                <span class="circle-3">
-                  <span class="count">30个</span>
-                </span>
-                <div class="line"></div>
-              </span>
-              <span class="name">文物点1</span>
-            </div>
-          </div>
-
-          <div class="unconfirmed-item-2">
-            <div class="circle-1">
-              <span class="circle-2">
-                <span class="circle-3">
-                  <span class="count">100个</span>
-                </span>
-                <div class="line"></div>
-              </span>
-              <span class="name">文物点2</span>
-            </div>
-          </div>
-
-          <div class="unconfirmed-item-3">
-            <div class="circle-1">
-              <span class="circle-2">
-                <span class="circle-3">
-                  <span class="count">65个</span>
-                </span>
-                <div class="line"></div>
-              </span>
-              <span class="name">文物点3</span>
-            </div>
-          </div>
-
-          <div class="unconfirmed-item-4">
-            <div class="circle-1">
-              <span class="circle-2">
-                <span class="circle-3">
-                  <span class="count">110个</span>
-                </span>
-                <div class="line"></div>
-              </span>
-              <span class="name">文物点4</span>
-            </div>
+          <div class="yqlist">
+            <ul class="clearfix">
+              <li>
+                <div class="yq" id="yq">634</div>
+                <span>文物点(1)</span>
+              </li>
+              <li>
+                <div class="yq">567</div>
+                <span>文物点(2)</span>
+              </li>
+              <li>
+                <div class="yq">563</div>
+                <span>文物点(3)</span>
+              </li>
+              <li>
+                <div class="yq">721</div>
+                <span>文物点(4)</span>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="top-head">
           <span>文物馆统计</span>
           <img src="../../../assets/chillerImg.png" alt="" />
         </div>
-        <div class=" alarm-content" id="piechart"></div>
+        <div class="alarm-content" id="piechart"></div>
       </div>
     </div>
   </div>
@@ -87,12 +60,12 @@ onMounted(() => {
 });
 function alarmPie() {
   piePlot.value = new Pie("piechart", {
-    padding: [40, 40, 0, 0],
+    padding: [20, 0, 0, 0],
     data: pieData.value,
     autoFit: true,
     angleField: "value",
     colorField: "type",
-    legend:false,
+    legend: false,
     label: {
       type: "spider",
       labelHeight: 28,
@@ -168,11 +141,10 @@ onBeforeUnmount(() => {
 .home-left {
   width: 400px;
   z-index: 100;
-  height: 100%;
   position: absolute;
   animation: toolBarShowLeft 0s;
   left: 0px;
-  top:0;
+  top: 90px;
   .sider-content {
     width: 100%;
     border-radius: 5px;
@@ -180,6 +152,7 @@ onBeforeUnmount(() => {
     height: 100%;
     overflow: auto;
     overflow-x: hidden;
+    padding-bottom:70px;
     background: linear-gradient(
       -90deg,
       rgba(8, 17, 40, 0.3) 0%,
@@ -203,112 +176,78 @@ onBeforeUnmount(() => {
     }
     .plot-content {
       width: 100%;
-      margin: 0px auto 10px auto;
+      margin: 20px auto 10px auto;
     }
     .unconfirmed-list {
       position: relative;
       width: 100%;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      column-gap: 20px;
-      .unconfirmed-item-1,
-      .unconfirmed-item-2,
-      .unconfirmed-item-3,
-      .unconfirmed-item-4 {
+      height: 250px;
+      .yqlist li {
+        float: left;
+        width: 50%;
+        padding: 10px 0;
         text-align: center;
-        .circle-1 {
-          position: relative;
-          width: 78px;
-          height: 78px;
-          padding: 16px;
-          background: rgba(64, 164, 243, 0.23);
-          border-radius: 50%;
-          .common-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: inline-block;
-            border-radius: 50%;
-          }
-
-          .circle-2 {
-            .common-circle;
-            width: 50px;
-            height: 50px;
-            padding: 2px;
-            box-shadow: 0 0 2px 2px #347ebb inset;
-          }
-
-          .circle-3 {
-            .common-circle;
-            width: 50px;
-            height: 50px;
-            background: rgba(173, 22, 25, 0);
-            border: 3px solid #04b2b6;
-            .count {
-              font-size: 15px;
-              font-weight: 400;
-              color: #ffffff;
-              line-height: 40px;
-            }
-          }
-        }
-
-        .name {
-          position: absolute;
-          top: 100px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 60px;
-          font-size: 12px;
-          font-weight: 400;
-          color: #c3e5ff;
-          text-align: center;
-        }
+        margin:0 auto;
+      }
+      .yq {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 5px auto;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-family: electronicFont;
+        color: #fff32b;
+      }
+      .yqlist li span {
+        opacity: 0.6;
+        font-size: 14px;
       }
 
-      .unconfirmed-item-2 {
+      .yq:before {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        content: "";
+        background: url(../../../assets/img1.png) center center;
+        border-radius: 100px;
+        background-size: 100% 100%;
+        opacity: 0.3;
+        left: 0;
         top: 0;
-        left: 100px;
-        .circle-1 {
-          width: 78px;
-          height: 78px;
-          .circle-3 {
-            border: 3px solid #0a98c6;
-          }
-        }
-
-        .name {
-          top: 101px;
-        }
+        animation: myfirst2 15s infinite linear;
       }
 
-      .unconfirmed-item-3 {
-        top: 0;
-        left: 189px;
-        .circle-1 {
-          .circle-3 {
-            border: 3px solid #6e8bd5;
-          }
-        }
+      .yq:after {
+        position: absolute;
+        width: 86%;
+        background: url(../../../assets/img2.png) center center;
+        border-radius: 100px;
+        background-size: 100% 100%;
+        opacity: 0.3;
+        height: 86%;
+        content: "";
+        left: 7%;
+        top: 7%;
+        animation: myfirst 15s infinite linear;
       }
 
-      .unconfirmed-item-4 {
-        top: 0;
-        left: 280px;
-        .circle-1 {
-          .circle-3 {
-            border: 3px solid #b28507;
-          }
+      @keyframes myfirst {
+        to {
+          transform: rotate(-360deg);
+        }
+      }
+      @keyframes myfirst2 {
+        to {
+          transform: rotate(360deg);
         }
       }
     }
     .alarm-content {
       height: 250px;
-      margin-top:80px;
+      margin-top: 70px;
     }
     .energy-content {
       height: 150px;

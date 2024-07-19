@@ -5,32 +5,34 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { loadBMapScript } from "../../assets/loadMap";
-import markLogo from "../../assets/logo.png"
+import markLogo from "../../assets/logo.png";
+import mapjson from "../../assets/map.json"
 onMounted(() => {
   loadBMapScript("HDVSUEiV0lEVvjMEbPqEMhJ5PdBcbwIb")
     .then((BMapGL) => {
       const markerArr: any = [
-        {point:"113.470276,23.179303",isDriver:false,title:"测试地址1"},
-        {point:"113.465767,23.180681",isDriver:false,title:"测试地址2"},
-        {point:"113.467689,23.181064",isDriver:true,title:"测试地址3"},
-        {point:"113.464707,23.179054",isDriver:false,title:"测试地址4"},
-        {point:"113.46397,23.176147",isDriver:false,title:"测试地址5"},
+        { point: "113.470276,23.179303", isDriver: false, title: "测试地址1" },
+        { point: "113.465767,23.180681", isDriver: false, title: "测试地址2" },
+        { point: "113.467689,23.181064", isDriver: true, title: "测试地址3" },
+        { point: "113.464707,23.179054", isDriver: false, title: "测试地址4" },
+        { point: "113.46397,23.176147", isDriver: false, title: "测试地址5" },
       ];
       // 创建Map实例
       // ,{ mapType: BMAP_SATELLITE_MAP }
-      const map = new BMapGL.Map("bmap" );
+      const map = new BMapGL.Map("bmap");
       // 创建点坐标
-      const point = new BMapGL.Point(113.74021,27.646307);
+      const point = new BMapGL.Point(113.74021, 27.646307);
       // 创建Point点标记
       const pointMarker = new BMapGL.Marker(
-        new BMapGL.Point(113.74021,27.646307)
+        new BMapGL.Point(113.74021, 27.646307)
       );
       map.setHeading(64.5); //设置地图旋转角度
       map.setTilt(73); //设置地图的倾斜角度
       map.enableScrollWheelZoom(true);
       // 地图设置中心点和放大级别
       map.centerAndZoom(point, 12);
-      map_init(markerArr, BMapGL, map);
+      map.setMapStyleV2({styleJson:mapjson});
+      // map_init(markerArr, BMapGL, map);
       // 地图添加点标记
       map.addOverlay(pointMarker);
     })
@@ -39,22 +41,14 @@ onMounted(() => {
     });
 });
 function map_init(markerArr, mapGL, map) {
-  var commonIcon = new mapGL.Icon(
-    markLogo,
-    new mapGL.Size(23, 25),
-    {
-      offset: new mapGL.Size(10, 25), // 指定定位位置
-      imageOffset: new mapGL.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
-    }
-  );
-  var driverIcon = new mapGL.Icon(
-    markLogo,
-    new mapGL.Size(23, 25),
-    {
-      offset: new mapGL.Size(10, 25), // 指定定位位置
-      imageOffset: new mapGL.Size(0, 0 - 10 * 25), // 设置图片偏移使用左侧的图片
-    }
-  );
+  var commonIcon = new mapGL.Icon(markLogo, new mapGL.Size(23, 25), {
+    offset: new mapGL.Size(10, 25), // 指定定位位置
+    imageOffset: new mapGL.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
+  });
+  var driverIcon = new mapGL.Icon(markLogo, new mapGL.Size(23, 25), {
+    offset: new mapGL.Size(10, 25), // 指定定位位置
+    imageOffset: new mapGL.Size(0, 0 - 10 * 25), // 设置图片偏移使用左侧的图片
+  });
   var point = new Array(); //存放标注点经纬信息的数组
   var marker = new Array(); //存放标注点对象的数组
   var info = new Array(); //存放提示信息窗口对象的数组

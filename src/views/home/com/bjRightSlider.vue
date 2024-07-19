@@ -216,16 +216,16 @@ onBeforeUnmount(() => {
 .home-right {
   width: 400px;
   z-index: 100;
-  height: 100%;
   position: absolute;
   right: 0;
-  top: 0;
+  top: 90px;
   animation: toolBarShowRight 0s;
   .sider-content {
     border-radius: 5px;
     height: 100%;
     overflow: auto;
     color: #ffff;
+    padding-bottom:50px;
     background: linear-gradient(
       90deg,
       rgba(8, 17, 40, 0.3) 0%,
@@ -248,7 +248,7 @@ onBeforeUnmount(() => {
     .plot-content {
       width: 350px;
       height: 300px;
-      margin: 10px auto;
+      margin: 10px auto 0px auto;
     }
     .sider-content-body {
       height: 100%;
@@ -371,9 +371,9 @@ onBeforeUnmount(() => {
   #top_left_chart,
   #top_right_chart {
     width: 100%;
-    height: 400px;
+    height: 300px;
     border-radius: 12px;
-    padding: 20px 20px 60px 20px;
+    padding: 20px 0px 0px 0px;
     .chart_top {
       display: flex;
       justify-content: space-between;

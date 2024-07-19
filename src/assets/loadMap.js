@@ -9,7 +9,7 @@ export function loadBMapScript(key) {
       }
       const script = document.createElement('script')
       script.type = 'text/javascript'
-      script.src = `https://api.map.baidu.com/api?type=webgl&v=1.0&ak=${key}&callback=onCallback`
+      script.src = `https://api.map.baidu.com/api?type=webgl&v=3.0&ak=${key}&callback=onCallback`
       script.onerror = reject
       document.body.appendChild(script)
     })
