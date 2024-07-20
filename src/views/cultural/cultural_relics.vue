@@ -58,7 +58,8 @@ const data = ref([
 const columns = ref([
   { title: "名称", dataIndex: "title", width: 120 },
   { title: "类型", dataIndex: "type_name", width: 100 },
-  { title: "地点", dataIndex: "point", width: 100 },
+  { title: "地点坐标", dataIndex: "point", width: 100 },
+  { title: "区域", dataIndex: "address", width: 100 },
   { title: "信息", dataIndex: "desc", width: 180,ellipsis: true },
   { title: "图片", dataIndex: "icon", width: 100 },
   { title: "更新时间", dataIndex: "update_time", width: 100 },

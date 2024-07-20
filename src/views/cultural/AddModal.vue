@@ -15,14 +15,28 @@
           @change="typeChange"
           :disabled="isLook"
         >
-          <a-select-option value="1" name="文物点" >文物点</a-select-option>
-          <a-select-option value="2" name="文物馆" >文物馆</a-select-option>
-          <a-select-option value="3" name="艺术馆" >艺术馆</a-select-option>
-          <a-select-option value="4" name="博物馆" >博物馆</a-select-option>
+          <a-select-option :value="1" name="文物馆" >文物馆</a-select-option>
+          <a-select-option :value="2" name="文物点" >文物点</a-select-option>
+          <a-select-option :value="3" name="艺术馆" >艺术馆</a-select-option>
+          <a-select-option :value="4" name="博物馆" >博物馆</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="文物名称" name="title">
         <a-input placeholder="请输入文物名称" v-model:value="formState.title" allow-clear :disabled="isLook" />
+      </a-form-item>
+      <a-form-item label="区域" name="address">
+        <a-select
+          placeholder="请选择区域"
+          v-model:value="formState.address"
+          @change="addressChange"
+          :disabled="isLook"
+        >
+          <a-select-option :value="1" name="湘东区" >湘东区</a-select-option>
+          <a-select-option :value="2" name="安源区" >安源区</a-select-option>
+          <a-select-option :value="3" name="上栗县" >上栗县</a-select-option>
+          <a-select-option :value="4" name="莲花县" >莲花县</a-select-option>
+          <a-select-option :value="5" name="芦溪县" >芦溪县</a-select-option>
+        </a-select>
       </a-form-item>
       <a-form-item label="文物地址" name="point">
         <a-input placeholder="请输入地址坐标(如：113.470276,23.179303)" v-model:value="formState.point" allow-clear :disabled="isLook" />
@@ -65,6 +79,8 @@ const formRef = ref();
 const formState = reactive({
   type_name:'',
   type:undefined,
+  address:undefined,
+  address_name:'',
   title:'',
   point:'',
   desc:'',
@@ -101,7 +117,9 @@ function show(type,row) {
     Object.keys(formState).forEach(it =>{
       formState[it] = '';
     })
+
     formState.type = undefined;
+    formState.address = undefined;
     formState.id = dayjs().valueOf()
   }
     //去除校验
@@ -114,6 +132,10 @@ function show(type,row) {
 
 function typeChange(e,option){
   formState.type_name = option.name;
+  console.log(formState)
+}
+function addressChange(e,option){
+  formState.address_name = option.name;
   console.log(formState)
 }
 

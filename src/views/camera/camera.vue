@@ -11,13 +11,23 @@
                 ></a-input-search>
             </div>
             <div class="top-right">
-                <a-button @click="search">刷新</a-button>
+                <a-radio-group  v-model:value="listType" button-style="solid" @change="onListTypeChanged">
+                    <!--        <a-radio-button :value="0">全部</a-radio-button>-->
+                    <a-radio-button :value="100">大</a-radio-button>
+                    <!-- <a-radio-button :value="4">待分派</a-radio-button> -->
+                    <a-radio-button :value="50">中</a-radio-button>
+                    <a-radio-button :value="25">小</a-radio-button>
+                </a-radio-group>
+                <a-button style="margin-left: 12px;" @click="search">刷新</a-button>
                 <a-button  style="margin-left: 12px;" type="primary" @click="openModel(1)">新增</a-button>
                 <a-button  style="margin-left: 12px;" type="primary" @click="router.go(-1)">返回主页</a-button>
             </div>
         </div>
         <div class="content">
-            <a-table
+            <div v-for="(item,i) in data" :key="i" class="vid" :style="{width:listType+'%'}">
+                <Player :videoInfo="item"></Player>
+            </div>
+            <!-- <a-table
             :columns="columns"
             :data-source="data"
             :pagination="pageData"
@@ -30,7 +40,6 @@
                     <a-button   type="primary" @click="openModel(2,record)">编辑</a-button>
                     <a-button style="margin-left: 10px;" type="primary" @click="openModel(3,record)">查看</a-button>
                     <a-popconfirm title="确认删除？" @confirm="del(record.id)">
-                        <!-- <a-button size="small" type="primary" danger>删除</a-button> -->
                         <a-button style="margin-left: 10px;" danger type="primary">删除</a-button>
                     </a-popconfirm>
                 </template>
@@ -38,7 +47,7 @@
                     <img :src="record.cam_img" style="width:80px;height:60px;" alt="">
                 </template>
             </template>
-            </a-table>
+            </a-table> -->
         </div>
         <AddModal ref="addModalRef" @on-success="search"></AddModal>
     </div>
@@ -49,12 +58,16 @@ import { onMounted, reactive,ref } from "vue";
 import AddModal from "./AddModal.vue";
 import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
+import Player from "./player.vue";
 
 const router = useRouter();
 
 const camName = ref('');
 // 定义静态数据
 const data = ref([]);
+
+const listType = ref(100);
+
 const columns = ref([
   { title: "摄像头名称", dataIndex: "title", width: 120 },
   { title: "位置", dataIndex: "point", width: 120 },
@@ -89,7 +102,15 @@ function getList(){
     }else{
         data.value = list;
     }
+    console.log(data.value)
 }
+
+
+
+
+
+
+
 function search(){
     pageData.current = 1;
     getList();
@@ -99,6 +120,12 @@ function onTableChanged(pagination) {
   pageData.pageSize = pagination.pageSize;
   getList();
 }
+
+function onListTypeChanged(e){
+    console.log(e)
+}
+
+
 /**
  * @param { type } 1新增，2编辑，3查看
  * @param { row } 当前行数据
@@ -131,6 +158,11 @@ function del(id){
         justify-content: space-between;
         margin-bottom: 30px;
         // margin-bottom: 20px;
+    }
+    .content{
+        .vid{
+            border:1px solid red;
+        }
     }
 }
 </style>
