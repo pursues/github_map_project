@@ -46,14 +46,12 @@ async function lineDraw() {
     (item) => item.type == 3
   );
   const occurrences = countBy(Data, "address_name");
-  console.log("🚀 ~ lineDraw ~ occurrences:", occurrences);
   newData = Object.entries(occurrences).map(([address, value]) => {
     return {
       address,
       value,
     };
   });
-  console.log("🚀 ~ newData=Object.entries ~ newData:", newData);
   lineChart.value = new Column("top_left_chart", {
     data: newData,
     xField: "address",
@@ -84,7 +82,7 @@ async function lineDraw() {
             <div class="g2-tooltip-title">${title}</div>
             <li class="g2-tooltip-list-item">
               <span class="g2-tooltip-marker" style="background-color:#3589ff;width:0px;height:0px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
-              一级艺术馆：
+              艺术馆：
               <span class="g2-tooltip-value"> ${items?.[0]?.value}</span>
             </li>
           </div>`,
@@ -201,7 +199,7 @@ onBeforeUnmount(() => {
     height: 100%;
     overflow: auto;
     color: #ffff;
-    padding-bottom: 50px;
+    padding-bottom: 70px;
     background: linear-gradient(
       90deg,
       rgba(8, 17, 40, 0.3) 0%,
@@ -223,7 +221,7 @@ onBeforeUnmount(() => {
     }
     .plot-content {
       width: 350px;
-      height: 300px;
+      height: 250px;
       margin: 10px auto 0px auto;
     }
     .sider-content-body {
@@ -344,10 +342,9 @@ onBeforeUnmount(() => {
     }
   }
 
-  #top_left_chart,
-  #top_right_chart {
+  #top_left_chart {
     width: 100%;
-    height: 300px;
+    height: 250px;
     border-radius: 12px;
     padding: 20px 0px 0px 0px;
     .chart_top {
@@ -355,6 +352,20 @@ onBeforeUnmount(() => {
       justify-content: space-between;
       margin-bottom: 10px;
     }
+  }
+  #top_right_chart {
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    padding: 40px 0px 20px 0px;
+    .chart_top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+  }
+  .bo-content{
+    height:300px;
   }
   // 收缩动画
   .right-btn {

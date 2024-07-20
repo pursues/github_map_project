@@ -2,14 +2,14 @@
   <div class="content">
     <div id="bmap"></div>
     <div class="bottom-slider">
-      <div v-for="item in imgList" :key="item.name">
+      <div v-for="item in imgList" :key="item.type_name">
         <img
           :src="item.url"
           alt=""
-          :title="item.name"
+          :title="item.type_name"
           @click="selectType(item)"
         />
-        <div class="point-name">{{ item.name }}</div>
+        <div class="point-name">{{ item.type_name }}({{ item.value }})</div>
       </div>
     </div>
     <DialogModal ref="dialogRef"></DialogModal>
@@ -39,149 +39,65 @@ const bowuIcon: any = ref(null);
 const sxtIcon: any = ref(null);
 const dialogRef = ref(null);
 const imgList = ref([
-  { name: "文物馆", type: 1, url: img1 },
-  { name: "文物点", type: 2, url: img2 },
-  { name: "艺术馆", type: 3, url: img3 },
-  { name: "博物馆", type: 4, url: img4 },
-  { name: "摄像头", type: 5, url: img5 },
+  { type_name: "文物馆", type: 1, url: img1 },
+  { type_name: "文物点", type: 2, url: img2 },
+  { type_name: "艺术馆", type: 3, url: img3 },
+  { type_name: "博物馆", type: 4, url: img4 },
+  { type_name: "摄像头", type: 5, url: img5 },
 ]);
+const countBy = (arr, key) =>
+  arr.reduce((acc, obj) => {
+    const value = obj[key];
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
 onMounted(() => {
   loadBMapScript("HDVSUEiV0lEVvjMEbPqEMhJ5PdBcbwIb")
     .then((BMapGL) => {
       BMap.value = BMapGL;
       wenwuguanIcon.value = new BMap.value.Icon(
         img1,
-        new BMap.value.Size(23, 25),
+        new BMap.value.Size(25, 25),
         {
           offset: new BMap.value.Size(10, 25), // 指定定位位置
-          imageOffset: new BMap.value.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
+          imageOffset: new BMap.value.Size(0, 0), // 设置图片偏移使用左侧的图片
         }
       );
-      wenwuIcon.value = new BMap.value.Icon(img2, new BMap.value.Size(23, 25), {
+      wenwuIcon.value = new BMap.value.Icon(img2, new BMap.value.Size(25, 25), {
         offset: new BMap.value.Size(10, 25), // 指定定位位置
-        imageOffset: new BMap.value.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
+        imageOffset: new BMap.value.Size(0, 0), // 设置图片偏移使用左侧的图片
       });
-      yishuIcon.value = new BMap.value.Icon(img3, new BMap.value.Size(23, 25), {
+      yishuIcon.value = new BMap.value.Icon(img3, new BMap.value.Size(25, 25), {
         offset: new BMap.value.Size(10, 25), // 指定定位位置
-        imageOffset: new BMap.value.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
+        imageOffset: new BMap.value.Size(0, 0), // 设置图片偏移使用左侧的图片
       });
-      bowuIcon.value = new BMap.value.Icon(img4, new BMap.value.Size(23, 25), {
+      bowuIcon.value = new BMap.value.Icon(img4, new BMap.value.Size(25, 25), {
         offset: new BMap.value.Size(10, 25), // 指定定位位置
-        imageOffset: new BMap.value.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
+        imageOffset: new BMap.value.Size(0, 0), // 设置图片偏移使用左侧的图片
       });
-      sxtIcon.value = new BMap.value.Icon(img5, new BMap.value.Size(23, 25), {
+      sxtIcon.value = new BMap.value.Icon(img5, new BMap.value.Size(25, 25), {
         offset: new BMap.value.Size(10, 25), // 指定定位位置
-        imageOffset: new BMap.value.Size(0, 0 - 0 * 25), // 设置图片偏移使用左侧的图片
+        imageOffset: new BMap.value.Size(0, 0), // 设置图片偏移使用左侧的图片
       });
-      markerArr.value = [
-        {
-          point: "113.86423,27.666289",
-          title: "聚龙体育公园",
-          type: 1,
-          icon: "",
-          desc: "",
-        },
-        {
-          point: "113.868685,27.630321",
-          title: "凤凰街道办事处",
-          type: 1,
-          icon: "",
-          desc: "",
-        },
-        {
-          point: "113.842958,27.620848",
-          title: "萍乡中学",
-          type: 3,
-          icon: "",
-          desc: "",
-        },
-        {
-          point: "113.839652,27.671536",
-          title: "萍乡实验小学",
-          type: 3,
-          icon: "",
-          desc: "",
-        },
-        {
-          point: "113.908642,27.668464",
-          title: "江西工程职业技术学院",
-          type: 4,
-          icon: "",
-          desc: "",
-        },
-        {
-          point: "113.857187,27.649778",
-          title: "润达国际",
-          type: 4,
-          icon: "",
-          desc: "",
-        },
-        {
-          point: "113.602263,27.637603",
-          title: "老关桥右",
-          type: 5,
-          icon: "",
-          videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000113_34020000001320000113.flv",
-          desc: "",
-        },
-        {
-          point: "113.592346,27.611998",
-          title: "老关桥左",
-          type: 5,
-          icon: "",
-          videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000113_34020000001320000113.flv",
-          desc: "",
-        },
-        {
-          point: "1113.630003,27.602267",
-          title: "老关火车站左过道",
-          type: 5,
-          icon: "",
-          videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000165_34020000001320000165.flv",
-          desc: "",
-        },
-        {
-          point: "113.614624,27.631459",
-          title: "老关火车站后左",
-          type: 5,
-          icon: "",
-          videoUrl: "",
-          desc: "",
-        },
-        {
-          point: "113.577829,27.594327",
-          title: "老关火车站后右",
-          type: 5,
-          icon: "",
-          videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000113_34020000001320000113.flv",
-          desc: "",
-        },
-        {
-          point: "113.91087,27.651954",
-          title: "老关火车站前",
-          type: 5,
-          icon: "",
-          videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000168_34020000001320000168.flv",
-          desc: "",
-        },
-        {
-          point: "113.825638,27.601641",
-          title: "老关火车站",
-          type: 5,
-          icon: "",
-          videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000011_34020000001320000011.flv",
-          desc: "",
-        },
-      ];
+      markerArr.value = [];
       const wenwuPointArr = JSON.parse(localStorage.getItem("cultural"));
-      console.log(wenwuPointArr,"wenwuPointArr")
-      markerArr.value = markerArr.value.concat(wenwuPointArr);
+      const sxtPointArr = JSON.parse(localStorage.getItem("camera"));
+      console.log("🚀 ~ .then ~ sxtPointArr:", sxtPointArr);
+      const occurrences = countBy(wenwuPointArr, "address_name");
+      const Data = Object.entries(occurrences).map(([address, value]) => ({
+        address,
+        value,
+      }));
+
+      imgList.value = Data.map((item, index) => {
+        return {
+          type_name: imgList.value[index].type_name,
+          value: item.value,
+          url: imgList.value[index].url,
+          type: imgList.value[index].type,
+        };
+      });
+      markerArr.value = [...wenwuPointArr, ...markerArr.value, ...sxtPointArr];
       cloneMarkArr.value = cloneDeep(markerArr.value);
       // 创建Map实例
       // ,{ mapType: BMAP_SATELLITE_MAP }
@@ -195,8 +111,6 @@ onMounted(() => {
       map.value.centerAndZoom(point, 12);
       map.value.setMapStyleV2({ styleJson: mapjson });
       map_init(); //默认呈现文物馆
-      // 地图添加点标记
-      map.value.addOverlay(pointMarker);
     })
     .catch(() => {
       console.log("地图加载失败");

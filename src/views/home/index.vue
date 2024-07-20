@@ -64,7 +64,7 @@ function selectTab(index,key) {
     z-index: 999;
   }
   .tab_box li {
-    width: 175px;
+    width: 150px;
     height: 60px;
     float: left;
     margin-top: 15px;
@@ -72,7 +72,7 @@ function selectTab(index,key) {
     text-align: center;
     line-height: 65px;
     color: #ffffff;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     cursor: pointer;
   }
   .active {
@@ -88,9 +88,9 @@ function selectTab(index,key) {
     z-index: 999;
   }
   .weather li {
-    width: 175px;
+    width: 150px;
     height: 64px;
-    margin-left: 1.5rem;
+    margin-left: 1.7rem;
     list-style: none;
     cursor: pointer;
     margin-top: 15px;
@@ -98,7 +98,7 @@ function selectTab(index,key) {
     text-align: center;
     line-height: 64px;
     color: #ffffff;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
   /*中间Logo*/
   .top_center {

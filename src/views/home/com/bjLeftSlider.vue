@@ -77,7 +77,7 @@ function alarmPie() {
     value,
   }));
   piePlot.value = new Pie("piechart", {
-    padding: [10, 0, 0, 0],
+    padding: [0, 0, 0, 0],
     data: pieData.value,
     autoFit: true,
     angleField: "value",
@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
     }
     .alarm-content {
       height: 250px;
-      margin-top: 50px;
+      padding-top: 40px;
     }
     .energy-content {
       height: 150px;
