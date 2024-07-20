@@ -36,32 +36,29 @@ onMounted(() => {
 });
 async function lineDraw() {
   const newData = [
-    { time: "2024-07-01", value: 1, type: "艺术馆一" },
-    { time: "2024-07-01", value: 4, type: "艺术馆二" },
-    { time: "2024-07-02", value: 23, type: "艺术馆一" },
-    { time: "2024-07-02", value: 34, type: "艺术馆二" },
-    { time: "2024-07-03", value: 12, type: "艺术馆一" },
-    { time: "2024-07-03", value: 22, type: "艺术馆二" },
-    { time: "2024-07-04", value: 44, type: "艺术馆一" },
-    { time: "2024-07-04", value: 12, type: "艺术馆二" },
-    { time: "2024-07-05", value: 14, type: "艺术馆一" },
-    { time: "2024-07-05", value: 14, type: "艺术馆二" },
-    { time: "2024-07-06", value: 16, type: "艺术馆一" },
-    { time: "2024-07-06", value: 41, type: "艺术馆二" },
-    { time: "2024-07-07", value: 19, type: "艺术馆一" },
-    { time: "2024-07-07", value: 42, type: "艺术馆二" },
+    { address: "安源区", type: "艺术馆一", value: 1 },
+    { address: "湘东区", type: "艺术馆一", value: 4 },
+    { address: "芦溪县", type: "艺术馆一", value: 23 },
+    { address: "上栗县", type: "艺术馆一", value: 34 },
+    { address: "莲花县", type: "艺术馆一", value: 12 },
+
+    { address: "安源区", type: "艺术馆二", value: 22 },
+    { address: "湘东区", type: "艺术馆二", value: 54 },
+    { address: "芦溪县", type: "艺术馆二", value: 12 },
+    { address: "上栗县", type: "艺术馆二", value: 52 },
+    { address: "莲花县", type: "艺术馆二", value: 23 },
   ];
   lineChart.value = new Line(document.getElementById("top_left_chart"), {
     padding: "auto",
     data: newData,
     autoFit: true,
-    xField: "time",
+    xField: "address",
     yField: "value",
     smooth: true,
     xAxis: {
       nice: true,
       title: {
-        text: "时间",
+        text: "地点",
         position: "end",
       },
       label: {
@@ -145,16 +142,11 @@ async function lineDraw() {
 }
 function drawPlot1() {
   let barData = [
-    { type: "博物馆一", sales: 23 },
-    { type: "博物馆二", sales: 25 },
-    { type: "博物馆三", sales: 45 },
-    { type: "博物馆四", sales: 67 },
-    { type: "博物馆五", sales: 11 },
-    { type: "博物馆六", sales: 22 },
-    { type: "博物馆七", sales: 45 },
-    { type: "博物馆八", sales: 56 },
-    { type: "博物馆九", sales: 34 },
-    { type: "博物馆十", sales: 23 },
+    { type: "湘东区", sales: 23 },
+    { type: "安源区", sales: 25 },
+    { type: "芦溪县", sales: 45 },
+    { type: "上栗县", sales: 67 },
+    { type: "莲花县", sales: 11 },
   ];
   barPlot.value = new Bar("top_right_chart", {
     data: barData,
@@ -225,7 +217,7 @@ onBeforeUnmount(() => {
     height: 100%;
     overflow: auto;
     color: #ffff;
-    padding-bottom:50px;
+    padding-bottom: 50px;
     background: linear-gradient(
       90deg,
       rgba(8, 17, 40, 0.3) 0%,
