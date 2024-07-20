@@ -49,12 +49,35 @@ const pieData = ref([
   { address: "莲花县", value: 15 },
   { address: "芦溪县", value: 10 },
 ]);
+const countBy = (arr, key) =>
+  arr.reduce((acc, obj) => {
+    const value = obj[key];
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
 onMounted(() => {
+  const Data = JSON.parse(localStorage.getItem("cultural")).filter(
+    (item) => item.type == 2
+  );
+  const occurrences = countBy(Data, "address_name");
+  circleData.value = Object.entries(occurrences).map(([address, value]) => ({
+    address,
+    value,
+  }));
   alarmPie();
 });
+
 function alarmPie() {
+  const Data = JSON.parse(localStorage.getItem("cultural")).filter(
+    (item) => item.type == 1
+  );
+  const occurrences = countBy(Data, "address_name");
+  pieData.value = Object.entries(occurrences).map(([address, value]) => ({
+    address,
+    value,
+  }));
   piePlot.value = new Pie("piechart", {
-    padding: [20, 0, 0, 0],
+    padding: [10, 0, 0, 0],
     data: pieData.value,
     autoFit: true,
     angleField: "value",
@@ -248,7 +271,7 @@ onBeforeUnmount(() => {
     }
     .alarm-content {
       height: 250px;
-      margin-top: 70px;
+      margin-top: 50px;
     }
     .energy-content {
       height: 150px;

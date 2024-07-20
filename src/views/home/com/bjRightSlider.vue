@@ -26,41 +26,41 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, onUnmounted } from "vue";
 import ArrowButton from "./ArrowButton.vue";
-import { Line, Bar } from "@antv/g2plot";
+import { Column, Bar } from "@antv/g2plot";
 const showRight = ref(true);
 const lineChart = ref(null);
 const barPlot = ref(null);
+const countBy = (arr, key) =>
+  arr.reduce((acc, obj) => {
+    const value = obj[key];
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
 onMounted(() => {
   lineDraw();
   drawPlot1();
 });
 async function lineDraw() {
-  const newData = [
-    { address: "安源区", type: "艺术馆一", value: 1 },
-    { address: "湘东区", type: "艺术馆一", value: 4 },
-    { address: "芦溪县", type: "艺术馆一", value: 23 },
-    { address: "上栗县", type: "艺术馆一", value: 34 },
-    { address: "莲花县", type: "艺术馆一", value: 12 },
-
-    { address: "安源区", type: "艺术馆二", value: 22 },
-    { address: "湘东区", type: "艺术馆二", value: 54 },
-    { address: "芦溪县", type: "艺术馆二", value: 12 },
-    { address: "上栗县", type: "艺术馆二", value: 52 },
-    { address: "莲花县", type: "艺术馆二", value: 23 },
-  ];
-  lineChart.value = new Line(document.getElementById("top_left_chart"), {
-    padding: "auto",
+  let newData = [];
+  const Data = JSON.parse(localStorage.getItem("cultural")).filter(
+    (item) => item.type == 3
+  );
+  const occurrences = countBy(Data, "address_name");
+  console.log("🚀 ~ lineDraw ~ occurrences:", occurrences);
+  newData = Object.entries(occurrences).map(([address, value]) => {
+    return {
+      address,
+      value,
+    };
+  });
+  console.log("🚀 ~ newData=Object.entries ~ newData:", newData);
+  lineChart.value = new Column("top_left_chart", {
     data: newData,
-    autoFit: true,
     xField: "address",
     yField: "value",
-    smooth: true,
+    padding: "auto",
+    color: "l(0) 0:#3876cd 0.5:#45b4e7 1:#54ffff",
     xAxis: {
-      nice: true,
-      title: {
-        text: "地点",
-        position: "end",
-      },
       label: {
         style: {
           fill: "#c3e5ff",
@@ -68,31 +68,10 @@ async function lineDraw() {
       },
     },
     yAxis: {
-      line: {
-        style: {
-          stroke: "#D5D5D5",
-        },
-      },
-      title: {
-        text: "数量",
-        position: "end",
-      },
       label: {
         style: {
           fill: "#c3e5ff",
         },
-      },
-    },
-    point: {
-      size: 3,
-      style: {
-        lineWidth: 1,
-        fillOpacity: 1,
-      },
-      shape: (item) => {
-        if (item.type === "艺术馆一") {
-          return "circle";
-        }
       },
     },
     tooltip: {
@@ -105,14 +84,8 @@ async function lineDraw() {
             <div class="g2-tooltip-title">${title}</div>
             <li class="g2-tooltip-list-item">
               <span class="g2-tooltip-marker" style="background-color:#3589ff;width:0px;height:0px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
-              艺术馆一：
+              一级艺术馆：
               <span class="g2-tooltip-value"> ${items?.[0]?.value}</span>
-            </li>
-            <li class="g2-tooltip-list-item">
-              <span class="g2-tooltip-marker" style="background-color:#20b558;width:0px;height:0px;border-radius:50%;display:inline-block;margin-right:8px;"></span>
-              艺术馆二：
-              <span class="g2-tooltip-value"> ${items?.[1]?.value}
-              </span>
             </li>
           </div>`,
       domStyles: {
@@ -135,23 +108,32 @@ async function lineDraw() {
         },
       },
     },
-    seriesField: "type",
     legend: false,
+    minColumnWidth: 10,
+    maxColumnWidth: 20,
   });
   lineChart.value.render();
 }
 function drawPlot1() {
   let barData = [
-    { type: "湘东区", sales: 23 },
-    { type: "安源区", sales: 25 },
-    { type: "芦溪县", sales: 45 },
-    { type: "上栗县", sales: 67 },
-    { type: "莲花县", sales: 11 },
+    { address: "湘东区", value: 23 },
+    { address: "安源区", value: 25 },
+    { address: "芦溪县", value: 45 },
+    { address: "上栗县", value: 67 },
+    { address: "莲花县", value: 11 },
   ];
+  const Data = JSON.parse(localStorage.getItem("cultural")).filter(
+    (item) => item.type == 4
+  );
+  const occurrences = countBy(Data, "address_name");
+  barData = Object.entries(occurrences).map(([address, value]) => ({
+    address,
+    value,
+  }));
   barPlot.value = new Bar("top_right_chart", {
     data: barData,
-    xField: "sales",
-    yField: "type",
+    xField: "value",
+    yField: "address",
     padding: "auto",
     barBackground: {
       style: {
@@ -175,6 +157,8 @@ function drawPlot1() {
         },
       },
     },
+    minBarWidth: 10,
+    maxBarWidth: 20,
     interactions: [{ type: "active-region", enable: false }],
     tooltip: {
       showTitle: true,
