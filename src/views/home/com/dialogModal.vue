@@ -5,6 +5,7 @@
     :width="800"
     @close="hide"
     :footer="null"
+    wrapClassName="dialog-modal"
   >
     <div class="modal-content">
       <div class="row-detail">
@@ -58,7 +59,7 @@ function show(detail) {
   detailObj.value = detail;
   console.log("🚀 ~ show ~ detail:", detail);
   isShow.value = true;
-  initPlayer();
+  if (detailObj.value.videoUrl) initPlayer();
 }
 function hide() {
   isShow.value = false;
@@ -103,8 +104,7 @@ defineExpose({
     margin-left: 20px;
   }
   video {
-    width: 400px;
-    height: 300px;
+    height: 300px !important;
     margin-left: 20px;
     padding-right: 20px;
   }

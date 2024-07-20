@@ -2,14 +2,15 @@
   <div class="content">
     <div id="bmap"></div>
     <div class="bottom-slider">
-      <img
-        v-for="item in imgList"
-        :key="item.name"
-        :src="item.url"
-        alt=""
-        :title="item.name"
-        @click="selectType(item)"
-      />
+      <div v-for="item in imgList" :key="item.name">
+        <img
+          :src="item.url"
+          alt=""
+          :title="item.name"
+          @click="selectType(item)"
+        />
+        <div class="point-name">{{ item.name }}</div>
+      </div>
     </div>
     <DialogModal ref="dialogRef"></DialogModal>
   </div>
@@ -25,10 +26,6 @@ import img2 from "../../assets/img/circle.png";
 import img3 from "../../assets/img/info_5.png";
 import img4 from "../../assets/img/star1.png";
 import img5 from "../../assets/img/sxt.png";
-import wenwuimg1 from "../../assets/wenwu1.png";
-import wenwuimg2 from "../../assets/wenwu2.png";
-import wenwuimg3 from "../../assets/wenwu3.png";
-import wenwuimg4 from "../../assets/wenwu4.png";
 import { cloneDeep } from "lodash-es";
 import DialogModal from "./com/dialogModal.vue";
 const map: any = ref(null);
@@ -120,52 +117,70 @@ onMounted(() => {
           desc: "",
         },
         {
-          point: "113.91087,27.651954",
-          title: "白源站",
+          point: "113.602263,27.637603",
+          title: "老关桥右",
           type: 5,
           icon: "",
           videoUrl:
-            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000011_34020000001320000011.flv",
+            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000113_34020000001320000113.flv",
+          desc: "",
+        },
+        {
+          point: "113.592346,27.611998",
+          title: "老关桥左",
+          type: 5,
+          icon: "",
+          videoUrl:
+            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000113_34020000001320000113.flv",
+          desc: "",
+        },
+        {
+          point: "1113.630003,27.602267",
+          title: "老关火车站左过道",
+          type: 5,
+          icon: "",
+          videoUrl:
+            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000165_34020000001320000165.flv",
+          desc: "",
+        },
+        {
+          point: "113.614624,27.631459",
+          title: "老关火车站后左",
+          type: 5,
+          icon: "",
+          videoUrl: "",
+          desc: "",
+        },
+        {
+          point: "113.577829,27.594327",
+          title: "老关火车站后右",
+          type: 5,
+          icon: "",
+          videoUrl:
+            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000113_34020000001320000113.flv",
+          desc: "",
+        },
+        {
+          point: "113.91087,27.651954",
+          title: "老关火车站前",
+          type: 5,
+          icon: "",
+          videoUrl:
+            "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000168_34020000001320000168.flv",
           desc: "",
         },
         {
           point: "113.825638,27.601641",
-          title: "萍乡技师学院",
+          title: "老关火车站",
           type: 5,
           icon: "",
           videoUrl:
             "http://59.62.61.24:10000/sms/34020000002020000001/flv/hls/34020000001320000011_34020000001320000011.flv",
           desc: "",
         },
-        {
-          point: "113.614505,27.639449",
-          title: "吴楚老关",
-          type: 2,
-          icon: wenwuimg1,
-          desc: "吴楚关隘遗址座落在江西省萍乡市湘东区老关镇老关村，古为吴楚要塞。老关地处赣西边界，相传自春秋设关卡在此，明嘉靖年间（1522-1566）年知县杨自治在老关建营房、置关楼，现关卡虽毁，城墙遗迹尚存，故称老关。该遗址通体为红石所砌，到20世纪60年代尚保存良好，存有关门，由明朝重匠题写的“插岭关”“江西锁铜”的界碑，并存有132米长，6米高的古城墙，该遗址毁于20世纪70年代的置田运动，现仅存132米长、2.3米高、宽2.61米的城墙。 ",
-        },
-        {
-          point: "113.656329,27.539471",
-          title: "窑前抗战到底摩崖石刻",
-          type: 2,
-          icon: wenwuimg2,
-          desc: "该石刻位于江西省萍乡市湘东区排上镇排上村窑前组，坐西朝东，“抗战到底”四字为美术黑体字，刻于1945年，阴刻。每个字的高度和长度分别为1.2米和1米，石刻总长为7米。据考证，当年萍乡中学全体师生从萍城为躲避日机轰炸迁于此地，师生们对侵略者深恶痛绝，于是刻标语于此地。",
-        },
-        {
-          point: "113.725315,27.681262",
-          title: "萍洲瑾珊家塾",
-          type: 2,
-          icon: wenwuimg3,
-          desc: "瑾珊家塾又名黎氏公祠，位于江西省萍乡市湘东区荷尧镇萍洲村桐田组，该祠堂为黎家秀才黎洛田于清代所建，坐北朝南，面宽13米，长21米，面积273方米，干打垒砖木混建，硬山顶，风火墙，南方传统民居建筑，侧房马头墙上绘有彩色幅纹图案，前为门厅，后为正殿，正殿内有描金缕空花板门，该建筑对当地传统居民的风格有研究价值。",
-        },
-        {
-          point: "113.630042,27.634447",
-          title: "老关火车站战斗遗址",
-          type: 2,
-          icon: wenwuimg4,
-          desc: "该遗址位于萍乡市湘东区老关镇老关村老关车站组，总占地面积15876平方米，车站始建于民国时期，呈东西走向，日前保留东西长378米，南北宽42米的车站遗址，仅存部份办公楼、候车室、水塔及货运场等附属建筑。该站在1927年9月初时为秋收起义部队第一路纵队的安源工人矿警队为主力，在攻占萍乡县城失败后转向进攻醴陵县城的重要交通枢纽，为研究秋收起义部队的转移提供了重要的实物依据。",
-        },
       ];
+      const wenwuPointArr = JSON.parse(localStorage.getItem("cultural"));
+      markerArr.value = markerArr.value.concat(wenwuPointArr);
       cloneMarkArr.value = cloneDeep(markerArr.value);
       // 创建Map实例
       // ,{ mapType: BMAP_SATELLITE_MAP }
@@ -267,6 +282,11 @@ function selectType(item) {
       width: 50px;
       height: 50px;
       cursor: pointer;
+    }
+    .point-name {
+      color: #c3e5ff;
+      font-size: 12px;
+      margin-top: 5px;
     }
   }
 }
