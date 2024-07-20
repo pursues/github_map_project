@@ -13,10 +13,10 @@
             <div class="top-right">
                 <a-radio-group  v-model:value="listType" button-style="solid" @change="onListTypeChanged">
                     <!--        <a-radio-button :value="0">全部</a-radio-button>-->
-                    <a-radio-button :value="100">大</a-radio-button>
+                    <a-radio-button :value="1">大</a-radio-button>
                     <!-- <a-radio-button :value="4">待分派</a-radio-button> -->
-                    <a-radio-button :value="50">中</a-radio-button>
-                    <a-radio-button :value="25">小</a-radio-button>
+                    <a-radio-button :value="2">中</a-radio-button>
+                    <a-radio-button :value="4">小</a-radio-button>
                 </a-radio-group>
                 <a-button style="margin-left: 12px;" @click="search">刷新</a-button>
                 <a-button  style="margin-left: 12px;" type="primary" @click="openModel(1)">新增</a-button>
@@ -24,9 +24,23 @@
             </div>
         </div>
         <div class="content">
-            <div v-for="(item,i) in data" :key="i" class="vid" :style="{width:listType+'%'}">
-                <Player :videoInfo="item"></Player>
+            <div class="con-left">
+                <a-menu
+                v-model:selectedKeys="selectedKeys"
+                mode="inline"
+                @click="menuEvent"
+                >
+                <!-- <template > -->
+                    <a-menu-item v-for="(it, i) in data" :key="it.id">{{ it.title }}</a-menu-item>
+                <!-- </template> -->
+                </a-menu>
             </div>
+            <div class="con-right" id="conRight">
+                <div v-for="(item,i) in data" :key="item.id" :class="{vid:selectedKeys == item.id }">
+                    <Player :videoInfo="item"></Player>
+                </div>
+            </div>
+            
             <!-- <a-table
             :columns="columns"
             :data-source="data"
@@ -66,7 +80,9 @@ const camName = ref('');
 // 定义静态数据
 const data = ref([]);
 
-const listType = ref(100);
+const listType = ref(1);
+
+const selectedKeys = ref([])
 
 const columns = ref([
   { title: "摄像头名称", dataIndex: "title", width: 120 },
@@ -123,6 +139,21 @@ function onTableChanged(pagination) {
 
 function onListTypeChanged(e){
     console.log(e)
+    // 获取容器元素
+    const container = document.getElementById('conRight');
+
+   // 根据列数生成grid-template-columns的值
+   let columns = `repeat(${e.target.value}, 1fr)`;
+  
+   // 设置grid-template-columns的值
+   container.style.gridTemplateColumns = columns;
+   container.style.gridTemplateRows = e.target.value == 1 ? '750px' : e.target.value == 2 ? '380px' : '180px';
+  
+}
+function menuEvent(e){
+    // console.log(e,selectedKeys.value)
+    selectedKeys.value = [e.key]
+    
 }
 
 
@@ -152,6 +183,7 @@ function del(id){
 
 <style scoped lang="less">
 .camera{
+    height:100%;
     padding: 20px;
     .hander{
         display: flex;
@@ -160,9 +192,28 @@ function del(id){
         // margin-bottom: 20px;
     }
     .content{
-        .vid{
-            border:1px solid red;
+        display:flex;
+        height: calc(100% - 60px);
+        overflow: auto;
+        .con-left{
+            width:250px;
+            border:1px solid #e6f4ff;
         }
+        .con-right{
+            border:1px solid #e6f4ff;
+            flex:1;
+            padding:10px;
+            display: grid;
+            grid-template-columns:1fr;
+            // grid-template-rows: auto;
+            // grid-template-rows:repeat(auto-fill, auto-fill);
+            grid-gap: 10px;
+            overflow:auto;
+            .vid{
+                border:1px solid #1677ff;
+            }
+        }
+       
     }
 }
 </style>

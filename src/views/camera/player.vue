@@ -1,16 +1,17 @@
 <template>
-    <div>
+    <div class="player-con">
         <video :id="videoInfo.id+'_video'"
-                    style="width: 100%; height: 100%"
-                    autoplay
-                    playsinline
-                    muted></video>
+            style="width: 100%; height: 100%"
+            autoplay
+            playsinline
+            muted>
+        </video>
     </div>
 
 </template>
 <script setup lang="ts"> 
 
-import { ref,onMounted } from "vue";
+import { ref,onMounted,onBeforeUnmount } from "vue";
 import FlvPlayer from "flv.js";
 
 const props = defineProps({
@@ -50,7 +51,9 @@ async function initPlayer() {
   player.value.load();
   player.value.play();
 }
-// onBeforeMount(() => {
-//   player.value?.destroy();
-// });
+onBeforeUnmount(() => {
+  player.value?.destroy();
+});
 </script>
+<style scoped>
+</style>

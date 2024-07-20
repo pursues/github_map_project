@@ -307,6 +307,9 @@ function initUser(){
 </script>
 
 <style scoped lang="less">
+.app-content{
+  height:100%;
+}
 .top {
   position: absolute;
   top: 10px;
