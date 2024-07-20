@@ -34,32 +34,46 @@
             style="max-height: 80px; max-width: 150px"
           />
         </a-popover>
-        <video
-          v-if="detailObj.videoUrl"
-          ref="videoElement"
-          style="width: 100%; height: 100%"
-          autoplay
-          playsinline
-          muted
-        ></video>
+        <div class="video-content">
+          <video
+            v-if="detailObj.videoUrl"
+            ref="videoElement"
+            style="width: 100%; height: 100%"
+            autoplay
+            muted
+            preload="metadata"
+          ></video>
+        </div>
       </div>
     </div>
   </a-modal>
 </template>
 <script setup lang="ts">
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, onMounted } from "vue";
+import {
+  FullscreenOutlined,
+  FullscreenExitOutlined,
+} from "@ant-design/icons-vue";
 import FlvPlayer from "flv.js";
+import screenfull from "screenfull";
+import { message } from "ant-design-vue";
+import WaitFor from "../../../components/WaitFor";
 const emit = defineEmits(["on-ok"]);
 const detailObj = ref({});
 const isShow = ref(false);
 const title = ref("详细信息");
 const player: any = ref(null);
 const videoElement = ref(null);
+const fullScreen = ref(false); //默认呈现非全屏状态
+onMounted(() => {});
 function show(detail) {
   detailObj.value = detail;
   console.log("🚀 ~ show ~ detail:", detail);
   isShow.value = true;
   if (detailObj.value.videoUrl) initPlayer();
+  new WaitFor(() => videoElement.value).then(() => {
+    videoElement.value.addEventListener("dblclick", changeScreen);
+  });
 }
 function hide() {
   isShow.value = false;
@@ -69,7 +83,6 @@ function onOk() {
 }
 async function initPlayer() {
   FlvPlayer.isSupported() && (await FlvPlayer.getFeatureList());
-
   player.value = FlvPlayer.createPlayer({
     type: "flv",
     url: detailObj.value.videoUrl,
@@ -87,6 +100,16 @@ async function initPlayer() {
   player.value.load();
   player.value.play();
 }
+function changeScreen() {
+  fullScreen.value = !fullScreen.value;
+  if (!screenfull.isEnabled) {
+    // 如果不支持进入全屏，发出不支持提示
+    message.warning("您的浏览器版本过低不支持全屏显示！");
+    return false;
+  }
+  //此处填入需要全屏的ref属性值即可
+  screenfull.toggle(videoElement.value);
+}
 onBeforeMount(() => {
   player.value?.destroy();
 });
@@ -98,18 +121,28 @@ defineExpose({
 .modal-content {
   width: 100%;
   height: 100%;
+  .row-detail {
+    margin-bottom: 20px;
+  }
   img {
     width: 400px;
     height: 300px;
     margin-left: 20px;
   }
-  video {
-    height: 300px !important;
-    margin-left: 20px;
-    padding-right: 20px;
-  }
-  .row-detail {
-    margin-bottom: 20px;
+  .video-content {
+    text-align: center;
+    position: relative;
+    background: #000;
+    video {
+      height: 300px !important;
+      margin-left: 20px;
+      padding-right: 20px;
+    }
+    .full-screen {
+      position: absolute;
+      top: 10px;
+      left: 210px;
+    }
   }
 }
 </style>

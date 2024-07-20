@@ -12,21 +12,9 @@
         <div class="plot-content unconfirmed-list">
           <div class="yqlist">
             <ul class="clearfix">
-              <li>
-                <div class="yq" id="yq">634</div>
-                <span>文物点(1)</span>
-              </li>
-              <li>
-                <div class="yq">567</div>
-                <span>文物点(2)</span>
-              </li>
-              <li>
-                <div class="yq">563</div>
-                <span>文物点(3)</span>
-              </li>
-              <li>
-                <div class="yq">721</div>
-                <span>文物点(4)</span>
+              <li v-for="item in circleData" :key="item.address">
+                <div class="yq" id="yq">{{ item.value }}</div>
+                <span>{{ item.address }}</span>
               </li>
             </ul>
           </div>
@@ -47,13 +35,19 @@ import { Pie, G2 } from "@antv/g2plot";
 const G = G2.getEngine("canvas");
 const showLeft = ref(true);
 const piePlot = ref(null);
+const circleData = ref([
+  { address: "湘东区", value: 76 },
+  { address: "安源区", value: 45 },
+  { address: "上栗县", value: 32 },
+  { address: "莲花县", value: 21 },
+  { address: "芦溪县", value: 10 },
+]);
 const pieData = ref([
-  { type: "文物馆1", value: 27 },
-  { type: "文物馆2", value: 25 },
-  { type: "文物馆3", value: 18 },
-  { type: "文物馆4", value: 15 },
-  { type: "文物馆5", value: 10 },
-  { type: "文物馆6", value: 5 },
+  { address: "湘东区", value: 27 },
+  { address: "安源区", value: 25 },
+  { address: "上栗县", value: 18 },
+  { address: "莲花县", value: 15 },
+  { address: "芦溪县", value: 10 },
 ]);
 onMounted(() => {
   alarmPie();
@@ -64,7 +58,7 @@ function alarmPie() {
     data: pieData.value,
     autoFit: true,
     angleField: "value",
-    colorField: "type",
+    colorField: "address",
     legend: false,
     label: {
       type: "spider",
@@ -87,7 +81,7 @@ function alarmPie() {
           attrs: {
             x: 10,
             y: 8,
-            text: `${data.type}`,
+            text: `${data.address}`,
             fill: "#c3e5ff",
           },
         });
@@ -152,7 +146,7 @@ onBeforeUnmount(() => {
     height: 100%;
     overflow: auto;
     overflow-x: hidden;
-    padding-bottom:70px;
+    padding-bottom: 70px;
     background: linear-gradient(
       -90deg,
       rgba(8, 17, 40, 0.3) 0%,
@@ -182,21 +176,28 @@ onBeforeUnmount(() => {
       position: relative;
       width: 100%;
       height: 250px;
+      .clearfix {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        column-gap: 15px;
+      }
       .yqlist li {
+        width: 30%;
         float: left;
-        width: 50%;
         padding: 10px 0;
         text-align: center;
-        margin:0 auto;
+        margin: 0 auto;
       }
       .yq {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         margin: 0 auto 5px auto;
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
+
         font-size: 20px;
         font-family: electronicFont;
         color: #fff32b;

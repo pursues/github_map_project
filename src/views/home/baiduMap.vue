@@ -180,6 +180,7 @@ onMounted(() => {
         },
       ];
       const wenwuPointArr = JSON.parse(localStorage.getItem("cultural"));
+      console.log(wenwuPointArr,"wenwuPointArr")
       markerArr.value = markerArr.value.concat(wenwuPointArr);
       cloneMarkArr.value = cloneDeep(markerArr.value);
       // 创建Map实例
