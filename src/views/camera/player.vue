@@ -1,59 +1,108 @@
 <template>
-    <div class="player-con">
-        <video :id="videoInfo.id+'_video'"
-            style="width: 100%; height: 100%"
-            autoplay
-            playsinline
-            muted>
-        </video>
-    </div>
-
+  <div class="player">
+    <p style="position: absolute !important; top: 10px; left: 20px">
+      {{ title }}
+    </p>
+    <img
+      src="../../assets/bg.png"
+      alt=""
+      class="centeredVideo"
+      v-show="url == ''"
+    />
+    <video
+      v-show="url"
+      ref="videoElement"
+      class="centeredVideo"
+      controls
+      autoplay
+      muted
+    ></video>
+  </div>
 </template>
-<script setup lang="ts"> 
-
-import { ref,onMounted,onBeforeUnmount } from "vue";
-import FlvPlayer from "flv.js";
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import flvjs from "flv.js";
 
 const props = defineProps({
-  //摄像头实例或者/编码
-  videoInfo: {
-    type: Object,
-    required: true,
+  title: {
+    type: String,
+    default: "",
   },
-})
+  url: {
+    type: String,
+    default: "",
+  },
+});
 
-const player = ref();
-const videoDom = ref();
-onMounted(()=>{
-    console.log(props.videoInfo)
-    initPlayer();
-})
-
-
-async function initPlayer() {
-  FlvPlayer.isSupported() && (await FlvPlayer.getFeatureList());
-
-  player.value = FlvPlayer.createPlayer({
-    type: "flv",
-    url: props.videoInfo.videoUrl,
-  });
-  videoDom.value = document.getElementById(props.videoInfo.id + "_video");
-
-  // 设置视频元素
-  player.value.attachMediaElement(videoDom.value);
-
-  // 监听播放器就绪事件
-  player.value.on(FlvPlayer.Events.MEDIA_INFO, () => {
-    // 在此可以做一些播放器初始化后的操作
-  });
-
-  // 加载和播放视频
-  player.value.load();
-  player.value.play();
+const flvPlayer = ref(null);
+const videoElement = ref(null);
+onMounted(() => {
+  console.log(props,"====")
+  flv_load(props.url);
+});
+watch(
+  () => props.url,
+  (news, olds) => {
+    destoryVideo();
+    flv_load(news);
+  }
+);
+function flv_load(url) {
+  if (flvjs.isSupported()) {
+    flvPlayer.value = flvjs.createPlayer(
+      {
+        type: "flv", //媒体类型
+        url: url || "", //flv格式媒体URL
+        isLive: true, //数据源是否为直播流
+        hasAudio: false, //数据源是否包含有音频
+        hasVideo: true, //数据源是否包含有视频
+        enableStashBuffer: false, //是否启用缓存区
+      },
+      {
+        enableWorker: false, // 是否启用分离的线程进行转换
+        enableStashBuffer: false, //关闭IO隐藏缓冲区
+        autoCleanupSourceBuffer: true, //自动清除缓存
+      }
+    );
+    flvPlayer.value.attachMediaElement(videoElement.value); //将播放实例注册到节点
+    flvPlayer.value.load(); //加载数据流
+    flvPlayer.value.play(); //播放数据流
+  }
 }
+function destoryVideo() {
+  if (flvPlayer.value) {
+    flvPlayer.value.pause();
+    flvPlayer.value.unload();
+    flvPlayer.value.detachMediaElement();
+    flvPlayer.value.destroy();
+    flvPlayer.value = null;
+  }
+}
+
 onBeforeUnmount(() => {
-  player.value?.destroy();
+  if (flvPlayer.value) {
+    flvPlayer.value.pause();
+    flvPlayer.value.unload();
+    flvPlayer.value.detachMediaElement();
+    flvPlayer.value.destroy();
+    flvPlayer.value = null;
+  }
 });
 </script>
 <style scoped>
+.player {
+  position: relative;
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  border: 1px solid white;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+.centeredVideo {
+  width: 100%;
+  height: 98%;
+}
 </style>

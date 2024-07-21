@@ -1,219 +1,327 @@
 <template>
-    <div class="camera">
-        <div class="hander">
-            <div class="top-left">
-                <a-input-search
-                    allow-clear
-                    v-model:value="camName"
-                    @search="search"
-                    placeholder="按摄像头名称搜索..."
-                    style="width: 250px;"
-                ></a-input-search>
-            </div>
-            <div class="top-right">
-                <a-radio-group  v-model:value="listType" button-style="solid" @change="onListTypeChanged">
-                    <!--        <a-radio-button :value="0">全部</a-radio-button>-->
-                    <a-radio-button :value="1">大</a-radio-button>
-                    <!-- <a-radio-button :value="4">待分派</a-radio-button> -->
-                    <a-radio-button :value="2">中</a-radio-button>
-                    <a-radio-button :value="4">小</a-radio-button>
-                </a-radio-group>
-                <a-button style="margin-left: 12px;" @click="search">刷新</a-button>
-                <a-button  style="margin-left: 12px;" type="primary" @click="openModel(1)">新增</a-button>
-                <a-button  style="margin-left: 12px;" type="primary" @click="router.go(-1)">返回主页</a-button>
-            </div>
-        </div>
-        <div class="content">
-            <div class="con-left">
-                <a-menu
-                v-model:selectedKeys="selectedKeys"
-                mode="inline"
-                @click="menuEvent"
-                >
-                <!-- <template > -->
-                    <a-menu-item v-for="(it, i) in data" :key="it.id">{{ it.title }}</a-menu-item>
-                <!-- </template> -->
-                </a-menu>
-            </div>
-            <div class="con-right" id="conRight">
-                <div v-for="(item,i) in data" :key="item.id" :class="{vid:selectedKeys == item.id }">
-                    <Player :videoInfo="item"></Player>
-                </div>
-            </div>
-            
-            <!-- <a-table
-            :columns="columns"
-            :data-source="data"
-            :pagination="pageData"
-            size="middle"
-            bordered
-            @change="onTableChanged"
-            >
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.dataIndex === 'action'">
-                    <a-button   type="primary" @click="openModel(2,record)">编辑</a-button>
-                    <a-button style="margin-left: 10px;" type="primary" @click="openModel(3,record)">查看</a-button>
-                    <a-popconfirm title="确认删除？" @confirm="del(record.id)">
-                        <a-button style="margin-left: 10px;" danger type="primary">删除</a-button>
-                    </a-popconfirm>
-                </template>
-                <template v-else-if="column.dataIndex === 'cam_img'">
-                    <img :src="record.cam_img" style="width:80px;height:60px;" alt="">
-                </template>
-            </template>
-            </a-table> -->
-        </div>
-        <AddModal ref="addModalRef" @on-success="search"></AddModal>
+  <div class="camera">
+    <div class="hander">
+      <div class="top-left">
+        <a-input-search
+          allow-clear
+          v-model:value="camName"
+          @search="search"
+          placeholder="按摄像头名称搜索..."
+          style="width: 250px"
+        ></a-input-search>
+      </div>
+      <div class="top-right">
+        <a-button
+          :class="{ active: cellCount === 1 }"
+          @click="handleCount(1)"
+          style="margin-right: 5px"
+          >1屏</a-button
+        >
+        <a-button
+          :class="{ active: cellCount === 4 }"
+          @click="handleCount(4)"
+          style="margin-right: 5px"
+          >4屏</a-button
+        >
+        <a-button
+          :class="{ active: cellCount === 6 }"
+          @click="handleCount(6)"
+          style="margin-right: 5px"
+          >6屏</a-button
+        >
+        <a-button
+          :class="{ active: cellCount === 9 }"
+          @click="handleCount(9)"
+          style="margin-right: 5px"
+          >9屏</a-button
+        >
+        <a-button
+          :class="{ active: cellCount === 16 }"
+          @click="handleCount(16)"
+          style="margin-right: 5px"
+          >16屏</a-button
+        >
+
+        <a-button style="margin-left: 12px" @click="search">刷新</a-button>
+        <a-button style="margin-left: 12px" type="primary" @click="openModel(1)"
+          >新增</a-button
+        >
+        <a-button
+          style="margin-left: 12px"
+          type="primary"
+          @click="router.go(-1)"
+          >返回主页</a-button
+        >
+      </div>
     </div>
+    <div class="content">
+      <div class="con-right" id="conRight">
+        <div class="cell-player">
+          <div
+            :class="cellClass(item.i)"
+            v-for="(item, index) in data"
+            :key="index"
+          >
+            <Player
+              :title="item.title"
+              v-if="cellCount != 6"
+              :url="item.videoUrl"
+            >
+            </Player>
+            <Player
+              :title="item.title"
+              v-if="cellCount == 6 && item.i != 2 && item.i != 3"
+              :url="item.videoUrl"
+            ></Player>
+            <template v-if="cellCount == 6 && item.i == 2">
+              <div class="cell-player-6-2-cell">
+                <Player :title="item.title" :url="item.videoUrl"></Player>
+                <Player
+                  :title="item.title"
+                  :url="data[index + 1].videoUrl"
+                ></Player>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <AddModal ref="addModalRef" @on-success="search"></AddModal>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive,ref } from "vue";
+import { onMounted, reactive, ref, computed } from "vue";
 import AddModal from "./AddModal.vue";
 import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import Player from "./player.vue";
+import { cloneDeep } from "lodash-es";
 
 const router = useRouter();
 
-const camName = ref('');
+const camName = ref("");
 // 定义静态数据
-const data = ref([]);
+const data: any = ref([]);
 
 const listType = ref(1);
 
-const selectedKeys = ref([])
+const selectedKeys = ref([]);
 
-const columns = ref([
-  { title: "摄像头名称", dataIndex: "title", width: 120 },
-  { title: "位置", dataIndex: "point", width: 120 },
-  { title: "url", dataIndex: "videoUrl", width: 120,ellipsis: true },
-  { title: "信息", dataIndex: "desc", width: 120,ellipsis: true },
-  { title: "更新时间", dataIndex: "update_time", width: 100 },
-  { title: "操作", dataIndex: "action", width: 130 },
-]);
-const pageData = reactive({
-  total: 0,
-  current: 1,
-  pageSize: 10,
-  showQuickJumper: true,
-  showSizeChanger: true,
-  showTotal: (total) => {
-    return `总共 ${total} 条数据`;
-  },
-});
 const addModalRef = ref();
 
-onMounted(()=>{
-    getList()
-})
+const cellCount = ref<Number>(4);
 
-function getList(){
-    // 获取本地数据
-    const strList = localStorage.getItem('camera');
-    // data.value = JSON.parse(strList);
-    let list = JSON.parse(strList);
-    if(camName.value){
-        data.value = list.filter(it => it.title.includes(camName.value)) || [];
-    }else{
-        data.value = list;
+const data2 = ref<any>([]);
+
+const cellClass = computed(() => {
+  return function (index) {
+    switch (cellCount.value) {
+      case 1:
+        return ["cell-player-1"];
+      case 4:
+        return ["cell-player-4"];
+      case 6:
+        if (index == 1) return ["cell-player-6-1"];
+        if (index == 2) return ["cell-player-6-2"];
+        if (index == 3) return ["cell-player-6-none"];
+        return ["cell-player-6"];
+      case 9:
+        return ["cell-player-9"];
+      case 16:
+        return ["cell-player-16"];
+      default:
+        break;
     }
-    console.log(data.value)
+  };
+});
+
+onMounted(() => {
+  getList();
+});
+
+function getList() {
+  // 获取本地数据
+  const strList = localStorage.getItem("camera");
+  // data.value = JSON.parse(strList);
+  let list = JSON.parse(strList);
+  if (camName.value) {
+    data.value =
+      list.filter((it, index) => {
+        it.i = index + 1;
+        return it.title.includes(camName.value);
+      }) || [];
+  } else {
+    data.value = list.map((item, index) => {
+      item.i = index + 1;
+      return item;
+    });
+  }
+  data2.value = cloneDeep(data.value);
+  handleCount(4)
+  console.log(data.value);
 }
+const handleCount = (num: any) => {
+  cellCount.value = num;
+  data.value = [];
+  if (data2.value.length >= 6) {
+    data.value = data2.value.slice(0, num);
+    return;
+  }
+  for (let i = 1; i <= num; i++) {
+    data.value.push({
+      videoUrl: "",
+      i: i,
+      title: "",
+    });
+  }
+  console.log(data.value, "this.data");
+};
 
-
-
-
-
-
-
-function search(){
-    pageData.current = 1;
-    getList();
-}
-function onTableChanged(pagination) {
-  pageData.current = pagination.current;
-  pageData.pageSize = pagination.pageSize;
+function search() {
   getList();
 }
 
-function onListTypeChanged(e){
-    console.log(e)
-    // 获取容器元素
-    const container = document.getElementById('conRight');
-
-   // 根据列数生成grid-template-columns的值
-   let columns = `repeat(${e.target.value}, 1fr)`;
-  
-   // 设置grid-template-columns的值
-   container.style.gridTemplateColumns = columns;
-   container.style.gridTemplateRows = e.target.value == 1 ? '750px' : e.target.value == 2 ? '380px' : '180px';
-  
+function menuEvent(e) {
+  // console.log(e,selectedKeys.value)
+  selectedKeys.value = [e.key];
 }
-function menuEvent(e){
-    // console.log(e,selectedKeys.value)
-    selectedKeys.value = [e.key]
-    
-}
-
 
 /**
  * @param { type } 1新增，2编辑，3查看
  * @param { row } 当前行数据
- * 
- * */ 
-function openModel(type,row={}){
-    addModalRef.value.show(type,row);
+ *
+ * */
+function openModel(type, row = {}) {
+  addModalRef.value.show(type, row);
 }
 // 删除
-function del(id){
-    
-      // 先读取到存储
-  const strList = localStorage.getItem('camera');
+function del(id) {
+  // 先读取到存储
+  const strList = localStorage.getItem("camera");
   // 解析处理啊
   let list = JSON.parse(strList) || [];
 
-  let newList = list.filter(it => it.id != id );
+  let newList = list.filter((it) => it.id != id);
 
-  localStorage.setItem('camera',JSON.stringify(newList));
-  message.success('删除成功');
+  localStorage.setItem("camera", JSON.stringify(newList));
+  message.success("删除成功");
   search();
 }
 </script>
 
 <style scoped lang="less">
-.camera{
-    height:100%;
-    padding: 20px;
-    .hander{
+.camera {
+  height: 100%;
+  padding: 20px;
+  .hander {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    // margin-bottom: 20px;
+  }
+  .content {
+    display: flex;
+    height: calc(100% - 60px);
+    overflow: auto;
+    .con-left {
+      width: 250px;
+      border: 1px solid #e6f4ff;
+    }
+    .con-right {
+      border: 1px solid #e6f4ff;
+      flex: 1;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 1fr;
+      // grid-template-rows: auto;
+      // grid-template-rows:repeat(auto-fill, auto-fill);
+      grid-gap: 10px;
+      overflow: auto;
+      .vid {
+        border: 1px solid #1677ff;
+      }
+
+      .cell-tool {
+        height: 40px;
+        line-height: 30px;
+        padding: 0 7px;
+      }
+
+      .cell-player {
+        width: 100%;
+        height: calc(100% - 40px);
+        flex: 1;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
-        margin-bottom: 30px;
-        // margin-bottom: 20px;
+      }
+
+      .cell-player-4 {
+        width: 50%;
+        height: 50% !important;
+        box-sizing: border-box;
+      }
+
+      .cell-player-1 {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .cell-player-6-1 {
+        width: 66.66%;
+        height: 66.66% !important;
+        box-sizing: border-box;
+      }
+
+      .cell-player-6-2 {
+        width: 33.33%;
+        height: 66.66% !important;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .cell-player-6-none {
+        display: none;
+      }
+
+      .cell-player-6-2-cell {
+        width: 100%;
+        height: 50% !important;
+        box-sizing: border-box;
+      }
+
+      .cell-player-6 {
+        width: 33.33%;
+        height: 33.33% !important;
+        box-sizing: border-box;
+      }
+
+      .cell-player-9 {
+        width: 33.33%;
+        height: 33.33% !important;
+        box-sizing: border-box;
+      }
+
+      .cell-player-16 {
+        width: 25%;
+        height: 25% !important;
+        box-sizing: border-box;
+      }
+
+      .cell {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+      }
     }
-    .content{
-        display:flex;
-        height: calc(100% - 60px);
-        overflow: auto;
-        .con-left{
-            width:250px;
-            border:1px solid #e6f4ff;
-        }
-        .con-right{
-            border:1px solid #e6f4ff;
-            flex:1;
-            padding:10px;
-            display: grid;
-            grid-template-columns:1fr;
-            // grid-template-rows: auto;
-            // grid-template-rows:repeat(auto-fill, auto-fill);
-            grid-gap: 10px;
-            overflow:auto;
-            .vid{
-                border:1px solid #1677ff;
-            }
-        }
-       
-    }
+  }
+  .active {
+    color: #fff;
+    background: #128df9;
+  }
 }
 </style>

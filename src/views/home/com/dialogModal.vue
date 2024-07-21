@@ -40,6 +40,7 @@
             ref="videoElement"
             style="width: 100%; height: 100%"
             autoplay
+            controls
             muted
             preload="metadata"
           ></video>
