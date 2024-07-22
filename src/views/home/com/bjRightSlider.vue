@@ -190,6 +190,7 @@ onBeforeUnmount(() => {
 .home-right {
   width: 400px;
   z-index: 100;
+  height: 100%;
   position: absolute;
   right: 0;
   top: 90px;
@@ -221,7 +222,7 @@ onBeforeUnmount(() => {
     }
     .plot-content {
       width: 350px;
-      height: 250px;
+      height: 300px;
       margin: 10px auto 0px auto;
     }
     .sider-content-body {
@@ -344,9 +345,9 @@ onBeforeUnmount(() => {
 
   #top_left_chart {
     width: 100%;
-    height: 250px;
+    height: 300px;
     border-radius: 12px;
-    padding: 20px 0px 0px 0px;
+
     .chart_top {
       display: flex;
       justify-content: space-between;
@@ -355,17 +356,17 @@ onBeforeUnmount(() => {
   }
   #top_right_chart {
     width: 100%;
-    height: 280px;
+    height: 300px;
     border-radius: 12px;
-    padding: 40px 0px 20px 0px;
+    margin-top: 30px;
     .chart_top {
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
     }
   }
-  .bo-content{
-    height:300px;
+  .bo-content {
+    height: 300px;
   }
   // 收缩动画
   .right-btn {

@@ -52,11 +52,14 @@ function selectTab(index,key) {
 <style scoped lang="less">
 .home-content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: relative;
   background: #033c76;
   background-size: 100% 100%;
-  overflow: auto;
+  overflow: hidden;
+  .top{
+    height:90px;
+  }
   .tab_box {
     width: 32%;
     height: 64px;

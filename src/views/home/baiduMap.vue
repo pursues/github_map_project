@@ -82,9 +82,9 @@ onMounted(() => {
       markerArr.value = [];
       const wenwuPointArr = JSON.parse(localStorage.getItem("cultural"));
       const sxtPointArr = JSON.parse(localStorage.getItem("camera"));
-      const occurrences = countBy(wenwuPointArr, "address_name");
-      const Data = Object.entries(occurrences).map(([address, value]) => ({
-        address,
+      const occurrences = countBy([...wenwuPointArr,...sxtPointArr], "type");
+      const Data = Object.entries(occurrences).map(([type, value]) => ({
+        type,
         value,
       }));
 
@@ -185,7 +185,7 @@ function selectType(item) {
     width: 200px;
     position: absolute;
     z-index: 999;
-    bottom: 50px;
+    bottom: 115px;
     display: flex;
     margin-left: -100px;
     left: 50%;
