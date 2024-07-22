@@ -77,7 +77,7 @@ function alarmPie() {
     value,
   }));
   piePlot.value = new Pie("piechart", {
-    padding: [0, 0, 0, 0],
+    padding: [30, 0, 30, 0],
     data: pieData.value,
     autoFit: true,
     angleField: "value",
@@ -157,6 +157,7 @@ onBeforeUnmount(() => {
 @import "../../../assets/style.css";
 .home-left {
   width: 400px;
+  height:100%;
   z-index: 100;
   position: absolute;
   animation: toolBarShowLeft 0s;
@@ -177,6 +178,7 @@ onBeforeUnmount(() => {
     );
     &-body {
       padding: 0 16px 10px 0px;
+      height:100%;
     }
     .top-head {
       width: 100%;
@@ -270,8 +272,11 @@ onBeforeUnmount(() => {
       }
     }
     .alarm-content {
-      height: 250px;
-      padding-top: 40px;
+      height: 300px;
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .energy-content {
       height: 150px;
