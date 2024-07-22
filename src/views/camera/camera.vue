@@ -79,19 +79,23 @@
               :title="item.title"
               v-if="cellCount != 6"
               :url="item.videoUrl"
+              :class="{vid:selectedKeys == item.id}"
             >
             </Player>
             <Player
               :title="item.title"
               v-if="cellCount == 6 && item.i != 2 && item.i != 3"
               :url="item.videoUrl"
+              :class="{vid:selectedKeys == item.id}"
             ></Player>
             <template v-if="cellCount == 6 && item.i == 2">
               <div class="cell-player-6-2-cell">
-                <Player :title="item.title" :url="item.videoUrl"></Player>
+                <Player :title="item.title" :url="item.videoUrl" 
+                  :class="{vid:selectedKeys == item.id}"></Player>
                 <Player
                   :title="item.title"
                   :url="data[index + 1].videoUrl"
+                :class="{vid:selectedKeys == data[index+1].id}"
                 ></Player>
               </div>
             </template>
@@ -252,7 +256,7 @@ function del(id) {
       grid-gap: 10px;
       overflow: auto;
       .vid {
-        border: 1px solid #1677ff;
+        border: 3px solid #1677ff;
       }
 
       .cell-tool {
