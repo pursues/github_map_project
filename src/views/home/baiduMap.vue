@@ -18,7 +18,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { loadBMapScript } from "../../assets/loadMap";
 import markLogo from "../../assets/logo.png";
 import mapjson from "../../assets/map.json";
 import img1 from "../../assets/img/green.png";
@@ -150,7 +149,7 @@ function map_init(iconObj?) {
       background: "rgba(0,0,0,0)",
       color: "#fff",
       border: "none",
-      display:"none"
+      display: "none",
     });
     marker[i].addEventListener("click", function () {
       dialogRef.value.show(markerArr.value[i]);
@@ -162,6 +161,22 @@ function map_init(iconObj?) {
       label.setStyle({ display: "none" });
     });
   }
+}
+function loadBMapScript(key) {
+  return new Promise((resolve, reject) => {
+    if (typeof BMapGL !== "undefined") {
+      resolve(BMapGL);
+      return;
+    }
+    window.onCallback = function () {
+      resolve(BMapGL);
+    };
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://api.map.baidu.com/api?type=webgl&v=3.0&ak=${key}&callback=onCallback`;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
 }
 function selectType(item) {
   map.value.clearOverlays();

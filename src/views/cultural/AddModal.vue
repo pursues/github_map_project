@@ -91,7 +91,6 @@ import { ref, reactive } from "vue";
 import { message } from "ant-design-vue";
 import dayjs from "dayjs";
 import ImgUpload from "../../components/imgUpload.vue";
-import { loadBMapScript } from "../../assets/loadMap";
 const map: any = ref(null);
 const BMap: any = ref(null);
 // 回填
@@ -152,6 +151,22 @@ function initMap() {
     .catch(() => {
       console.log("地图加载失败");
     });
+}
+function loadBMapScript(key) {
+  return new Promise((resolve, reject) => {
+    if (typeof BMapGL !== "undefined") {
+      resolve(BMapGL);
+      return;
+    }
+    window.onCallback = function () {
+      resolve(BMapGL);
+    };
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://api.map.baidu.com/api?type=webgl&v=3.0&ak=${key}&callback=onCallback`;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
 }
 // 关闭
 function hide() {
