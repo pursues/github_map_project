@@ -7,6 +7,9 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from "vue";
+import arrowLeft from "../../../assets/arrow-left.png"
+import arrowRight from "../../../assets/arrow-right.png"
+import arrow from "../../../assets/arrow.png"
 export default defineComponent({
   props: {
     type: {
@@ -19,19 +22,16 @@ export default defineComponent({
       const type = props.type;
       let src = "";
       if (type === "left") {
-        src = getImages("arrow-left.png");
+        src = arrowLeft;
       } else if (type === "right") {
-        src = getImages("arrow-right.png");
+        src = arrowRight;
       } else if (type === "down") {
-        src = getImages("arrow.png");
+        src = arrow;
       } else {
-        src = getImages("arrow.png");
+        src = arrow;
       }
       return src;
     });
-    function getImages(url: string) {
-      return new URL(`../../../assets/${url}`, import.meta.url).href;
-    }
     const contentClass = computed(() => {
       const type = props.type;
       let cl = [];
