@@ -3,12 +3,7 @@
     <p style="position: absolute !important; top: 10px; left: 20px">
       {{ title }}
     </p>
-    <img
-      src="../../assets/bg.png"
-      alt=""
-      class="centeredVideo"
-      v-show="url == ''"
-    />
+    <div v-show="url==''" class="no-single">无信号</div>
     <video
       v-show="url"
       ref="videoElement"
@@ -37,7 +32,6 @@ const props = defineProps({
 const flvPlayer = ref(null);
 const videoElement = ref(null);
 onMounted(() => {
-  console.log(props,"====")
   flv_load(props.url);
 });
 watch(
@@ -48,7 +42,7 @@ watch(
   }
 );
 function flv_load(url) {
-  if (flvjs.isSupported()) {
+  if (flvjs.isSupported() && url) {
     flvPlayer.value = flvjs.createPlayer(
       {
         type: "flv", //媒体类型
@@ -56,7 +50,6 @@ function flv_load(url) {
         isLive: true, //数据源是否为直播流
         hasAudio: false, //数据源是否包含有音频
         hasVideo: true, //数据源是否包含有视频
-        enableStashBuffer: false, //是否启用缓存区
       },
       {
         enableWorker: false, // 是否启用分离的线程进行转换
@@ -104,5 +97,14 @@ onBeforeUnmount(() => {
 .centeredVideo {
   width: 100%;
   height: 98%;
+}
+.no-single {
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  margin-top: -20px;
+  margin-left: -100px;
+  top: 50%;
+  left: 50%;
 }
 </style>
