@@ -55,6 +55,19 @@
       </div>
     </div>
     <div class="content">
+      <div class="con-left">
+        <a-menu
+          v-model:selectedKeys="selectedKeys"
+          mode="inline"
+          @click="menuEvent"
+        >
+          <!-- <template > -->
+          <a-menu-item v-for="(it, i) in data" :key="it.id">{{
+            it.title
+          }}</a-menu-item>
+          <!-- </template> -->
+        </a-menu>
+      </div>
       <div class="con-right" id="conRight">
         <div class="cell-player">
           <div
@@ -158,7 +171,7 @@ function getList() {
     });
   }
   data2.value = cloneDeep(data.value);
-  handleCount(4)
+  handleCount(4);
   console.log(data.value);
 }
 const handleCount = (num: any) => {

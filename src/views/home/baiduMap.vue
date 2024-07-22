@@ -82,7 +82,6 @@ onMounted(() => {
       markerArr.value = [];
       const wenwuPointArr = JSON.parse(localStorage.getItem("cultural"));
       const sxtPointArr = JSON.parse(localStorage.getItem("camera"));
-      console.log("🚀 ~ .then ~ sxtPointArr:", sxtPointArr);
       const occurrences = countBy(wenwuPointArr, "address_name");
       const Data = Object.entries(occurrences).map(([address, value]) => ({
         address,
