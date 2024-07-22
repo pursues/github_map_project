@@ -37,6 +37,7 @@ import yi1 from "./assets/yi1.png";
 import yi2 from "./assets/yi2.png";
 
 onBeforeMount(() => {
+  window.addEventListener("resize", bodyScale, false);
   // 文物初始化
   initCultural();
   // 摄像头初始化
@@ -44,6 +45,13 @@ onBeforeMount(() => {
   // 用户信息初始化
   initUser();
 });
+function bodyScale() {
+  var deviceWidth = document.documentElement.clientWidth; //获取当前分辨率下的可是区域宽度
+
+  var scale = deviceWidth / 1920; // 分母——设计稿的尺寸
+
+  document.documentElement.style.zoom = scale; //放大缩小相应倍数
+}
 
 // 初始化文物管理数据集
 function initCultural() {

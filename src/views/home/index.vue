@@ -52,7 +52,7 @@ function selectTab(index,key) {
 <style scoped lang="less">
 .home-content {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: relative;
   background: #033c76;
   background-size: 100% 100%;
