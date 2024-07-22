@@ -360,7 +360,7 @@ function initCamera() {
         id: "cam1234562",
       },
       {
-        point: "1113.630003,27.602267",
+        point: "113.630003,27.602267",
         title: "老关火车站左过道",
         type: 5,
         icon: "",

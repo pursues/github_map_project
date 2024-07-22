@@ -79,23 +79,26 @@
               :title="item.title"
               v-if="cellCount != 6"
               :url="item.videoUrl"
-              :class="{vid:selectedKeys == item.id}"
+              :class="{ vid: selectedKeys == item.id }"
             >
             </Player>
             <Player
               :title="item.title"
               v-if="cellCount == 6 && item.i != 2 && item.i != 3"
               :url="item.videoUrl"
-              :class="{vid:selectedKeys == item.id}"
+              :class="{ vid: selectedKeys == item.id }"
             ></Player>
             <template v-if="cellCount == 6 && item.i == 2">
               <div class="cell-player-6-2-cell">
-                <Player :title="item.title" :url="item.videoUrl" 
-                  :class="{vid:selectedKeys == item.id}"></Player>
+                <Player
+                  :title="item.title"
+                  :url="item.videoUrl"
+                  :class="{ vid: selectedKeys == item.id }"
+                ></Player>
                 <Player
                   :title="item.title"
                   :url="data[index + 1].videoUrl"
-                :class="{vid:selectedKeys == data[index+1].id}"
+                  :class="{ vid: selectedKeys == data[index + 1].id }"
                 ></Player>
               </div>
             </template>
@@ -176,23 +179,20 @@ function getList() {
   }
   data2.value = cloneDeep(data.value);
   handleCount(4);
-  console.log(data.value);
 }
 const handleCount = (num: any) => {
   cellCount.value = num;
   data.value = [];
   if (data2.value.length >= 6) {
     data.value = data2.value.slice(0, num);
-    return;
   }
-  for (let i = 1; i <= num; i++) {
+  for (let i = data2.value.length; i < num; i++) {
     data.value.push({
       videoUrl: "",
       i: i,
       title: "",
     });
   }
-  console.log(data.value, "this.data");
 };
 
 function search() {
@@ -200,7 +200,6 @@ function search() {
 }
 
 function menuEvent(e) {
-  // console.log(e,selectedKeys.value)
   selectedKeys.value = [e.key];
 }
 

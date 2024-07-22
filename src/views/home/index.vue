@@ -17,7 +17,7 @@
           文物管理
         </li>
       </ul>
-      <div class="top_center">大数据可视化平台</div>
+      <div class="top_center">湘东文物安全监管平台</div>
       <ul class="weather">
         <li :class="[activeIndex == 3 ? 'active' : '']" @click="selectTab(3,'user')">
           用户管理

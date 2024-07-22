@@ -82,7 +82,7 @@ onMounted(() => {
       markerArr.value = [];
       const wenwuPointArr = JSON.parse(localStorage.getItem("cultural"));
       const sxtPointArr = JSON.parse(localStorage.getItem("camera"));
-      const occurrences = countBy([...wenwuPointArr,...sxtPointArr], "type");
+      const occurrences = countBy([...wenwuPointArr, ...sxtPointArr], "type");
       const Data = Object.entries(occurrences).map(([type, value]) => ({
         type,
         value,
@@ -140,10 +140,26 @@ function map_init(iconObj?) {
             : sxtIcon.value,
       });
     }
+    let label = new BMap.value.Label(markerArr.value[i].title, {
+      offset: new BMap.value.Size(20, -10),
+    });
     //按照地图点坐标生成标记
     map.value.addOverlay(marker[i]);
+    marker[i].setLabel(label);
+    label.setStyle({
+      background: "rgba(0,0,0,0)",
+      color: "#fff",
+      border: "none",
+      display:"none"
+    });
     marker[i].addEventListener("click", function () {
       dialogRef.value.show(markerArr.value[i]);
+    });
+    marker[i].addEventListener("mouseover", function () {
+      label.setStyle({ display: "block" });
+    });
+    marker[i].addEventListener("mouseout", function () {
+      label.setStyle({ display: "none" });
     });
   }
 }
