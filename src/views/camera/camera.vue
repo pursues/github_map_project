@@ -62,7 +62,7 @@
           @click="menuEvent"
         >
           <!-- <template > -->
-          <a-menu-item v-for="(it, i) in data" :key="it.id">{{
+          <a-menu-item v-for="(it, i) in leftNavList" :key="it.id">{{
             it.title
           }}</a-menu-item>
           <!-- </template> -->
@@ -133,6 +133,8 @@ const addModalRef = ref();
 const cellCount = ref<Number>(4);
 
 const data2 = ref<any>([]);
+// 左侧导航使用
+const leftNavList = ref([]);
 
 const cellClass = computed(() => {
   return function (index) {
@@ -178,6 +180,7 @@ function getList() {
     });
   }
   data2.value = cloneDeep(data.value);
+  leftNavList.value = cloneDeep(data.value);
   handleCount(4);
 }
 const handleCount = (num: any) => {
@@ -201,6 +204,8 @@ function search() {
 
 function menuEvent(e) {
   selectedKeys.value = [e.key];
+  data.value = leftNavList.value.filter(it => it.id == e.key);
+  cellCount.value = 1;
 }
 
 /**

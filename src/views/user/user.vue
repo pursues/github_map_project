@@ -53,12 +53,12 @@ const userName = ref('');
 const data = ref([
 ]);
 const columns = ref([
-  { title: "ID", dataIndex: "id", width: 200 },
-  { title: "用户姓名", dataIndex: "name", width: 120 },
-  { title: "登录账号", dataIndex: "account", width: 120 },
+  { title: "ID", dataIndex: "id", width: 150 },
+  { title: "用户姓名", dataIndex: "name", width: 100 },
+  { title: "登录账号", dataIndex: "account", width: 100 },
   { title: "更新时间", dataIndex: "update_time", width: 100 },
-  { title: "描述", dataIndex: "desc", width: 100 },
-  { title: "操作", dataIndex: "action", width: 130 },
+  { title: "描述", dataIndex: "desc",ellipsis: true  },
+  { title: "操作", dataIndex: "action", width: 230 },
 ]);
 const pageData = reactive({
 total: 0,
