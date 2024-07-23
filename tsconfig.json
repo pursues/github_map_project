@@ -6,22 +6,12 @@
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "importHelpers": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "allowJs": true,
-    "paths": {
-      "@/*": ["src/*"],
-      "@build/*": ["build/*"]
-    },
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "allowSyntheticDefaultImports": true /* 允许默认导入 */,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "src/types/**/*.d.ts",  "build/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.js"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { setupBuild } from "./build/index.ts"
+import { setupBuild } from "./build/index"
 
 
 export default defineConfig(({ mode }) => ({
