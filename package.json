@@ -1,14 +1,10 @@
 {
   "name": "map-project",
   "private": true,
-  "version": "0.0.0",
-  "main": "dist-electron/main.js",
-  "author":"廖生",
-  "description": "这是一个可视化项目",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "chcp 65001 && vite",
-    "electron:dev":"electron .",
-    "build": "vite build && electron-builder",
+    "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -26,60 +22,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",
-    "electron": "^31.2.1",
-    "electron-builder": "^24.13.3",
-    "electron-devtools-installer": "^3.2.0",
     "less": "^4.1.2",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
-    "vite-plugin-electron": "^0.28.7",
-    "vite-plugin-electron-renderer": "^0.14.5",
     "vue-tsc": "^0.29.8"
-  },
-  "build": {
-    "appId": "com.electron.desktop",
-    "productName": "electron",
-    "asar": true,
-    "copyright": "Copyright © 2022 electron",
-    "directories": {
-      "output": "release/${version}"
-    },
-    "files": [
-      "./dist",
-      "./package.json",
-      "./dist-electron"
-    ],
-    "mac": {
-      "artifactName": "${productName}_${version}.${ext}",
-      "target": [
-        "dmg"
-      ]
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
-      "artifactName": "${productName}_${version}.${ext}"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": false
-    },
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "http://127.0.0.1:8080"
-      }
-    ],
-    "releaseInfo": {
-      "releaseNotes": "版本更新的具体内容"
-    }
   }
 }
