@@ -6,5 +6,11 @@ export default defineConfig(({ mode }) => ({
   base: './',
   plugins: [
     vue(),
-  ]
+  ],
+build:{
+  outDir:"dist"
+},
+lib:{
+  entry:"./src/main.ts"
+}
 }))
