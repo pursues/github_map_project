@@ -9,5 +9,6 @@ export default defineConfig(({ mode }) => ({
   baseUrl:'/github_map_project/',
   build:setupBuild(),
   plugins: [
-    vue(),]
+    vue(),
+  ]
 }))
