@@ -39,7 +39,7 @@ export const constantRoutes = [
 export const asyncRoutes = []
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/dist/'),
   routes: constantRoutes
 })
 
