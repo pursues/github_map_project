@@ -3,8 +3,13 @@ import { createRouter, createWebHistory} from 'vue-router'
 export const constantRoutes = [
   {
     path: '/',
-    component: () => import('../views/home/index.vue'),
-    redirect: '/home',
+    component: () => import('../views/login/index.vue'),
+    redirect: '/login',
+  },
+  {
+    path: '/login',
+    component: () => import('../views/login/index.vue'),
+    redirect: '/login',
   },
   {
     path: '/home',
